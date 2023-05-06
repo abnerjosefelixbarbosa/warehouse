@@ -25,17 +25,17 @@ import lombok.ToString;
 @Entity(name = "employe")
 public class Employe {
 	@Id
-	private Long matriculation;
+	private Long matriculation;	
 	@Column(nullable = false)
-	private String name;
+	private String name;	
 	@Column(nullable = false)
-	private Double salary;
+	private Double salary;	
 	@Column(name = "position_id", nullable = false)
-	private UUID positionId;
+	private UUID positionId;	
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "position_id", nullable = false, insertable = false, updatable = false)
-	private Position position;
+	private Position position;	
 	@JsonIgnore
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	@OneToMany(mappedBy = "employe")

@@ -6,7 +6,6 @@ import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -26,27 +25,27 @@ import lombok.ToString;
 @Entity(name = "product")
 public class Product {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private UUID id;
+	@GeneratedValue
+	private UUID id;	
 	@Column(nullable = false)
-	private String name;
+	private String name;	
 	@Column(nullable = false)
-	private String brand;
+	private String brand;	
 	@Column(nullable = false)
-	private Integer size;
+	private Integer size;	
 	@JsonFormat(pattern = "yyyy-MM-dd@HH:mmZ")
 	@Column(nullable = false)
-	private Date dateTime;
+	private Date dateTime;	
 	@Column(nullable = false)
-	private Double Weight;
+	private Double Weight;	
 	@Column(name = "employe_id", nullable = false)
-	private UUID  employeId;
+	private UUID  employeId;	
 	@Column(name = "address_id", nullable = false)
-	private UUID addressId;
+	private UUID addressId;	
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "employe_id", nullable = false, insertable = false, updatable = false)
-	private Employe employe;
+	@JoinColumn(name = "matriculation", nullable = false, insertable = false, updatable = false)
+	private Employe employe;	
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "address_id", nullable = false, insertable = false, updatable = false)
