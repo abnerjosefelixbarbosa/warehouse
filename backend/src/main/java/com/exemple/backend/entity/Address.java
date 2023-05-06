@@ -1,12 +1,18 @@
 package com.exemple.backend.entity;
 
+import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -14,11 +20,11 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
+@ToString(exclude = {"products"})
 @Entity(name = "address")
 public class Address {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue
 	private UUID id;
 	@Column(nullable = false)
 	private Integer number;
@@ -32,4 +38,8 @@ public class Address {
 	private String city;
 	@Column(nullable = false)
 	private String state;
+	@JsonIgnore
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	@OneToMany(mappedBy = "address")
+	private List<Product> products;
 }

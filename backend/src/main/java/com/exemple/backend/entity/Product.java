@@ -6,10 +6,12 @@ import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -19,11 +21,11 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
+@ToString(exclude = {"employe", "address"})
 @Entity(name = "product")
 public class Product {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue
 	private UUID id;
 	@Column(nullable = false)
 	private String name;
@@ -40,10 +42,12 @@ public class Product {
 	private UUID  employeId;
 	@Column(name = "address_id", nullable = false)
 	private UUID addressId;
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "employe_id", nullable = false)
+	@JoinColumn(name = "employe_id", nullable = false, insertable = false, updatable = false)
 	private Employe employe;
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "address_id", nullable = false)
+	@JoinColumn(name = "address_id", nullable = false, insertable = false, updatable = false)
 	private Address address;
 }
