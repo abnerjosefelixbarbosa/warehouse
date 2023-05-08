@@ -21,15 +21,15 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString(exclude = {"employes"})
-@Entity(name = "position")
-public class Position {
+@Entity(name = "function")
+public class Function {
 	@Id
 	@GeneratedValue
 	private UUID id;
-	@Column(nullable = false)
-	private String position;
+	@Column(nullable = false, length = 30)
+	private String function;
 	@JsonIgnore
 	@OnDelete(action = OnDeleteAction.CASCADE)
-	@OneToMany(mappedBy = "position")
+	@OneToMany(mappedBy = "function")
 	private List<Employe> employes;
 }

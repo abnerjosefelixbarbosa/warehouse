@@ -28,15 +28,15 @@ public class Address {
 	private UUID id;	
 	@Column(nullable = false)
 	private Integer number;	
-	@Column(nullable = false)
+	@Column(nullable = false, length = 20)
 	private String postalCode;	
-	@Column(nullable = false)
+	@Column(nullable = false, length = 50)
 	private String neighborhood;	
-	@Column(nullable = false)
+	@Column(nullable = false, length = 50)
 	private String address;	
-	@Column(nullable = false)
+	@Column(nullable = false, length = 30)
 	private String city;	
-	@Column(nullable = false)
+	@Column(nullable = false, length = 30)
 	private String state;	
 	@JsonIgnore
 	@OnDelete(action = OnDeleteAction.CASCADE)

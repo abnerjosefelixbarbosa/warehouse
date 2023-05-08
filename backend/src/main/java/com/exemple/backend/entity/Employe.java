@@ -21,21 +21,21 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@ToString(exclude = {"position","products"})
+@ToString(exclude = {"function","products"})
 @Entity(name = "employe")
 public class Employe {
 	@Id
 	private Long matriculation;	
-	@Column(nullable = false)
+	@Column(nullable = false, length = 100)
 	private String name;	
 	@Column(nullable = false)
 	private Double salary;	
-	@Column(name = "position_id", nullable = false)
-	private UUID positionId;	
+	@Column(name = "function_id", nullable = false)
+	private UUID functionId;	
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "position_id", nullable = false, insertable = false, updatable = false)
-	private Position position;	
+	@JoinColumn(name = "function_id", nullable = false, insertable = false, updatable = false)
+	private Function function;	
 	@JsonIgnore
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	@OneToMany(mappedBy = "employe")

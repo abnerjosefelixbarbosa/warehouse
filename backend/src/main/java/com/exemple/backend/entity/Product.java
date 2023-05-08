@@ -27,9 +27,9 @@ public class Product {
 	@Id
 	@GeneratedValue
 	private UUID id;	
-	@Column(nullable = false)
+	@Column(nullable = false, length = 100)
 	private String name;	
-	@Column(nullable = false)
+	@Column(nullable = false, length = 50)
 	private String brand;	
 	@Column(nullable = false)
 	private Integer size;	
