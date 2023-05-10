@@ -1,5 +1,8 @@
 package com.exemple.backend.service;
 
+import java.util.List;
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +13,18 @@ import com.exemple.backend.repository.FunctionRepository;
 public class FunctionService {
 	@Autowired
 	private FunctionRepository functionRepository;
+	
+	public List<Function> findAll() {
+		return functionRepository.findAll();
+	}
+	
+	public Function findById(UUID id) {
+		return functionRepository.findById(id).orElse(null);
+	}
+	
+	public Function findByFunction(String function) {
+		return functionRepository.findByFunction(function).orElse(null);
+	}
 	
 	public Function save(Function function) {
 		return functionRepository.save(function);

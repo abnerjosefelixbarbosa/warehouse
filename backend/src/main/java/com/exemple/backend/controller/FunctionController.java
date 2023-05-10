@@ -1,8 +1,13 @@
 package com.exemple.backend.controller;
 
+import java.util.List;
+import java.util.UUID;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +23,32 @@ public class FunctionController {
 	@Autowired
 	private FunctionService functionService;
 	
+	@GetMapping("/list")
+	public ResponseEntity<?> list() {
+		List<Function> functions = functionService.findAll();
+		return ResponseEntity.status(200).body(functions);
+	}
+	
+	@GetMapping("/find-by-id/{id}")
+	public ResponseEntity<?> findById(@PathVariable UUID id) {
+		Function functionResponse = functionService.findById(id);
+		if (functionResponse == null) {
+			return ResponseEntity.status(404).body(functionResponse);
+		} else {
+			return ResponseEntity.status(200).body(functionResponse);
+		}
+	}
+	
+	@GetMapping("/find-by-function/{function}")
+	public ResponseEntity<?> findByFunction(@PathVariable String function) {
+		Function functionResponse = functionService.findByFunction(function);
+		if (functionResponse == null) {
+			return ResponseEntity.status(404).body(functionResponse);
+		} else {
+			return ResponseEntity.status(200).body(functionResponse);
+		}
+	}
+	
 	@PostMapping("/create")
 	public ResponseEntity<?> create(@RequestBody FunctionDto functionDto) {
 		try {
@@ -25,8 +56,8 @@ public class FunctionController {
 			BeanUtils.copyProperties(functionDto, function);
 			
 			functionService.validCreate(function);
-			function = functionService.save(function);
-			BeanUtils.copyProperties(function, functionDto);
+			Function functionResponse = functionService.save(function);
+			BeanUtils.copyProperties(functionResponse, functionDto);
 			return ResponseEntity.status(200).body(functionDto);
 		} catch (Exception e) {
 			return ResponseEntity.status(400).body(e.getMessage());
