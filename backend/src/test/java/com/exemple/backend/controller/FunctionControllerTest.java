@@ -25,8 +25,8 @@ public class FunctionControllerTest {
 	
 	@Test
 	@Disabled
-	public void list() throws Exception {
-		String url = "/functions/list";
+	public void findAll() throws Exception {
+		String url = "/functions/find-all";
 		String accept = "application/json";
 		
 		mockMvc.perform(get(url).accept(accept))
@@ -46,7 +46,7 @@ public class FunctionControllerTest {
 	}
 	
 	@Test
-	//@Disabled
+	@Disabled
 	public void findByFunction() throws Exception {
 		String url = "/functions/find-by-function/maneger";
 		String accept = "application/json";

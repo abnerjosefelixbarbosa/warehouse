@@ -23,8 +23,8 @@ public class FunctionController {
 	@Autowired
 	private FunctionService functionService;
 	
-	@GetMapping("/list")
-	public ResponseEntity<?> list() {
+	@GetMapping("/find-all")
+	public ResponseEntity<?> findAll() {
 		List<Function> functions = functionService.findAll();
 		return ResponseEntity.status(200).body(functions);
 	}
