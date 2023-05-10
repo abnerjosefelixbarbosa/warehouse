@@ -26,8 +26,8 @@ public class FunctionService {
 		return functionRepository.findByFunction(function).orElse(null);
 	}
 	
-	public Function save(Function function) {
-		return functionRepository.save(function);
+	public void save(Function function) {
+		functionRepository.save(function);
 	}
 	
 	public void validCreate(Function function) throws Exception {
@@ -41,4 +41,20 @@ public class FunctionService {
 			throw new Exception("existing function");
 		}
 	}
+	
+	public void validUpdata(Function function) throws Exception {
+		if (function.getFunction().isEmpty()) {
+			throw new Exception("function required");
+		}
+		if (function.getFunction().length() > 30) {
+			throw new Exception("function greater than 30 characters");
+		}
+		if (functionRepository.existsByFunction(function.getFunction())) {
+			throw new Exception("existing function");
+		}
+	}
+	
+	public void deleteById(UUID id) {
+		functionRepository.deleteById(id);
+	} 
 }

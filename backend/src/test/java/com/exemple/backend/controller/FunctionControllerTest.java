@@ -1,7 +1,9 @@
 package com.exemple.backend.controller;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -74,6 +76,39 @@ public class FunctionControllerTest {
 		String json = objectMapper.writeValueAsString(function1);
 		
 		mockMvc.perform(post(url).contentType(contentType).accept(accept).content(json))
+		       .andDo(print())
+		       .andExpect(status().is(200));
+	}
+	
+	@Test
+	@Disabled
+	public void updata() throws Exception {
+		Function function1 = new Function();
+		function1.setFunction("maneger");		
+		
+		Function function2 = new Function();
+		function2.setFunction("coordinator");
+		
+		Function function3 = new Function();
+		function3.setFunction("charger");
+		
+		String url = "/functions/updata/f3140f21-240b-472d-abfd-69732b3d5dbd";
+		String contentType = "application/json";
+		String accept = "application/json";
+		String json = objectMapper.writeValueAsString(function1);
+		
+		mockMvc.perform(put(url).contentType(contentType).accept(accept).content(json))
+		       .andDo(print())
+		       .andExpect(status().is(200));
+	}
+	
+	@Test
+	@Disabled
+	public void deleteById() throws Exception {
+		String url = "/functions/delete-by-id/f3140f21-240b-472d-abfd-69732b3d5dbd";
+		String accept = "application/json";
+		
+		mockMvc.perform(delete(url).accept(accept))
 		       .andDo(print())
 		       .andExpect(status().is(200));
 	}
