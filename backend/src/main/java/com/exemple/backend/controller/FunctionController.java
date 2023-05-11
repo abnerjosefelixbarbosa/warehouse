@@ -25,32 +25,6 @@ public class FunctionController {
 	@Autowired
 	private FunctionService functionService;
 	
-	@GetMapping("/find-all")
-	public ResponseEntity<List<Function>> findAll() {
-		List<Function> functions = functionService.findAll();
-		return ResponseEntity.status(200).body(functions);
-	}
-	
-	@GetMapping("/find-by-id/{id}")
-	public ResponseEntity<Function> findById(@PathVariable UUID id) {
-		Function functionResponse = functionService.findById(id);
-		if (functionResponse == null) {
-			return ResponseEntity.status(404).body(functionResponse);
-		} else {
-			return ResponseEntity.status(200).body(functionResponse);
-		}
-	}
-	
-	@GetMapping("/find-by-function/{function}")
-	public ResponseEntity<Function> findByFunction(@PathVariable String function) {
-		Function functionResponse = functionService.findByFunction(function);
-		if (functionResponse == null) {
-			return ResponseEntity.status(404).body(functionResponse);
-		} else {
-			return ResponseEntity.status(200).body(functionResponse);
-		}
-	}
-	
 	@PostMapping("/create")
 	public ResponseEntity<String> create(@RequestBody FunctionDto functionDto) {
 		try {
@@ -59,7 +33,7 @@ public class FunctionController {
 			
 			functionService.validCreate(function);
 			functionService.save(function);
-			return ResponseEntity.status(200).body("created function");
+			return ResponseEntity.status(200).body("function created");
 		} catch (Exception e) {
 			return ResponseEntity.status(400).body(e.getMessage());
 		}	
@@ -71,28 +45,51 @@ public class FunctionController {
 			Function function = new Function();
 			BeanUtils.copyProperties(functionDto, function);
 			
-			Function functionResponse = functionService.findById(id);
-			if (functionResponse == null) {
-				return ResponseEntity.status(404).body("function not found");
-			} 
-			
 			function.setId(id);
+			Function findById = functionService.findById(function.getId());
+			if (findById == null) 
+				return ResponseEntity.status(404).body("function not found");
+			
 			functionService.validUpdata(function);
 			functionService.save(function);
-			return ResponseEntity.status(200).body("updated function");
-		} catch (Exception e) {
+			return ResponseEntity.status(200).body("function updated");
+		} catch (Exception e) { 
 			return ResponseEntity.status(400).body(e.getMessage());
-		}	
+		}
 	} 
+	
+	@GetMapping("/list")
+	public ResponseEntity<List<Function>> list() {
+		List<Function> functions = functionService.findAll();
+		return ResponseEntity.status(200).body(functions);
+	}
+	
+	@GetMapping("/find-by-id/{id}")
+	public ResponseEntity<Function> findById(@PathVariable UUID id) {
+		Function findById = functionService.findById(id);
+		if (findById == null) {
+			return ResponseEntity.status(404).body(null);
+		} else {
+			return ResponseEntity.status(200).body(findById);
+		}
+	}
+	
+	@GetMapping("/find-by-function/{function}")
+	public ResponseEntity<Function> findByFunction(@PathVariable String function) {
+		Function findByFunction = functionService.findByFunction(function);
+		if (findByFunction == null) 
+			return ResponseEntity.status(404).body(null);
+		else 
+			return ResponseEntity.status(200).body(findByFunction);
+	}
 	
 	@DeleteMapping("/delete-by-id/{id}")
 	public ResponseEntity<String> deleteById(@PathVariable UUID id) {
-		Function functionResponse = functionService.findById(id);
-		if (functionResponse == null) {
+		Function findById = functionService.findById(id);
+		if (findById == null) 
 			return ResponseEntity.status(404).body("function not found");
-		} 
 			
 		functionService.deleteById(id);
-		return ResponseEntity.status(200).body("deleted function");
+		return ResponseEntity.status(200).body("function deleted");
 	} 
 }
