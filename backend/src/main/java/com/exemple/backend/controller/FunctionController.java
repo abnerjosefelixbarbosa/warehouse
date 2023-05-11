@@ -17,13 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.exemple.backend.dto.FunctionDto;
 import com.exemple.backend.entity.Function;
-import com.exemple.backend.service.FunctionService;
+import com.exemple.backend.face.FunctionFace;
 
 @RestController
 @RequestMapping("/functions")
 public class FunctionController {
 	@Autowired
-	private FunctionService functionService;
+	private FunctionFace functionService;
 	
 	@PostMapping("/create")
 	public ResponseEntity<String> create(@RequestBody FunctionDto functionDto) {
