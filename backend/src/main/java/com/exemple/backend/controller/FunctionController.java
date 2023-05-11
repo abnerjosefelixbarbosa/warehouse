@@ -23,7 +23,7 @@ import com.exemple.backend.face.FunctionFace;
 @RequestMapping("/functions")
 public class FunctionController {
 	@Autowired
-	private FunctionFace functionService;
+	private FunctionFace functionFace;
 	
 	@PostMapping("/create")
 	public ResponseEntity<String> create(@RequestBody FunctionDto functionDto) {
@@ -31,8 +31,8 @@ public class FunctionController {
 			Function function = new Function();
 			BeanUtils.copyProperties(functionDto, function);
 			
-			functionService.validCreate(function);
-			functionService.save(function);
+			functionFace.validCreate(function);
+			functionFace.save(function);
 			return ResponseEntity.status(200).body("function created");
 		} catch (Exception e) {
 			return ResponseEntity.status(400).body(e.getMessage());
@@ -46,12 +46,12 @@ public class FunctionController {
 			BeanUtils.copyProperties(functionDto, function);
 			
 			function.setId(id);
-			Function findById = functionService.findById(function.getId());
+			Function findById = functionFace.findById(function.getId());
 			if (findById == null) 
 				return ResponseEntity.status(404).body("function not found");
 			
-			functionService.validUpdata(function);
-			functionService.save(function);
+			functionFace.validUpdata(function);
+			functionFace.save(function);
 			return ResponseEntity.status(200).body("function updated");
 		} catch (Exception e) { 
 			return ResponseEntity.status(400).body(e.getMessage());
@@ -60,13 +60,13 @@ public class FunctionController {
 	
 	@GetMapping("/list")
 	public ResponseEntity<List<Function>> list() {
-		List<Function> functions = functionService.findAll();
+		List<Function> functions = functionFace.findAll();
 		return ResponseEntity.status(200).body(functions);
 	}
 	
 	@GetMapping("/find-by-id/{id}")
 	public ResponseEntity<Function> findById(@PathVariable UUID id) {
-		Function findById = functionService.findById(id);
+		Function findById = functionFace.findById(id);
 		if (findById == null) {
 			return ResponseEntity.status(404).body(null);
 		} else {
@@ -76,7 +76,7 @@ public class FunctionController {
 	
 	@GetMapping("/find-by-function/{function}")
 	public ResponseEntity<Function> findByFunction(@PathVariable String function) {
-		Function findByFunction = functionService.findByFunction(function);
+		Function findByFunction = functionFace.findByFunction(function);
 		if (findByFunction == null) 
 			return ResponseEntity.status(404).body(null);
 		else 
@@ -85,11 +85,11 @@ public class FunctionController {
 	
 	@DeleteMapping("/delete-by-id/{id}")
 	public ResponseEntity<String> deleteById(@PathVariable UUID id) {
-		Function findById = functionService.findById(id);
+		Function findById = functionFace.findById(id);
 		if (findById == null) 
 			return ResponseEntity.status(404).body("function not found");
 			
-		functionService.deleteById(id);
+		functionFace.deleteById(id);
 		return ResponseEntity.status(200).body("function deleted");
 	} 
 }

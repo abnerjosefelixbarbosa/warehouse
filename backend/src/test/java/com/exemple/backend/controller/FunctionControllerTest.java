@@ -29,13 +29,13 @@ public class FunctionControllerTest {
 	@Disabled
 	public void create() throws Exception {
 		Function function1 = new Function();
-		function1.setFunction("maneger");		
+		function1.setFunction("function1");		
 		
 		Function function2 = new Function();
-		function2.setFunction("coordinator");
+		function2.setFunction("function2");
 		
 		Function function3 = new Function();
-		function3.setFunction("charger");
+		function3.setFunction("function3");
 		
 		String url = "/functions/create";
 		String contentType = "application/json";
@@ -51,13 +51,13 @@ public class FunctionControllerTest {
 	@Disabled
 	public void updata() throws Exception {
 		Function function1 = new Function();
-		function1.setFunction("maneger");		
+		function1.setFunction("function1");		
 		
 		Function function2 = new Function();
-		function2.setFunction("coordinator");
+		function2.setFunction("function2");
 		
 		Function function3 = new Function();
-		function3.setFunction("charger");
+		function3.setFunction("function3");
 		
 		String url = "/functions/updata/f3140f21-240b-472d-abfd-69732b3d5dbd";
 		String contentType = "application/json";
