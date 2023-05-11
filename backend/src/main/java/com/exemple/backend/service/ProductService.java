@@ -2,9 +2,9 @@ package com.exemple.backend.service;
 
 import org.springframework.stereotype.Service;
 
-import com.exemple.backend.face.AddressFace;
+import com.exemple.backend.face.ProductFace;
 
 @Service
-public class AddressService implements AddressFace {
+public class ProductService implements ProductFace {
 
 }

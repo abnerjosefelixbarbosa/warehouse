@@ -2,7 +2,9 @@ package com.exemple.backend.service;
 
 import org.springframework.stereotype.Service;
 
+import com.exemple.backend.face.EmployeeFace;
+
 @Service
-public class EmployeeService {
+public class EmployeeService implements EmployeeFace {
 
 }

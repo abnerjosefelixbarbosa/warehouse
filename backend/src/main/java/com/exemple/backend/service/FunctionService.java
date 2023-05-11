@@ -7,10 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.exemple.backend.entity.Function;
+import com.exemple.backend.face.FunctionFace;
 import com.exemple.backend.repository.FunctionRepository;
 
 @Service
-public class FunctionService {
+public class FunctionService implements FunctionFace {
 	@Autowired
 	private FunctionRepository functionRepository;
 	
