@@ -27,39 +27,6 @@ public class FunctionControllerTest {
 	
 	@Test
 	@Disabled
-	public void findAll() throws Exception {
-		String url = "/functions/find-all";
-		String accept = "application/json";
-		
-		mockMvc.perform(get(url).accept(accept))
-		       .andDo(print())
-		       .andExpect(status().is(200));
-	}
-	
-	@Test
-	@Disabled
-	public void findById() throws Exception {
-		String url = "/functions/find-by-id/f3140f21-240b-472d-abfd-69732b3d5dbd";
-		String accept = "application/json";
-		
-		mockMvc.perform(get(url).accept(accept))
-		       .andDo(print())
-		       .andExpect(status().is(200));
-	}
-	
-	@Test
-	@Disabled
-	public void findByFunction() throws Exception {
-		String url = "/functions/find-by-function/maneger";
-		String accept = "application/json";
-		
-		mockMvc.perform(get(url).accept(accept))
-		       .andDo(print())
-		       .andExpect(status().is(200));
-	}
-	
-	@Test
-	@Disabled
 	public void create() throws Exception {
 		Function function1 = new Function();
 		function1.setFunction("maneger");		
@@ -98,6 +65,39 @@ public class FunctionControllerTest {
 		String json = objectMapper.writeValueAsString(function1);
 		
 		mockMvc.perform(put(url).contentType(contentType).accept(accept).content(json))
+		       .andDo(print())
+		       .andExpect(status().is(200));
+	}
+	
+	@Test
+	@Disabled
+	public void list() throws Exception {
+		String url = "/functions/list";
+		String accept = "application/json";
+		
+		mockMvc.perform(get(url).accept(accept))
+		       .andDo(print())
+		       .andExpect(status().is(200));
+	}
+	
+	@Test
+	@Disabled
+	public void findById() throws Exception {
+		String url = "/functions/find-by-id/f3140f21-240b-472d-abfd-69732b3d5dbd";
+		String accept = "application/json";
+		
+		mockMvc.perform(get(url).accept(accept))
+		       .andDo(print())
+		       .andExpect(status().is(200));
+	}
+	
+	@Test
+	@Disabled
+	public void findByFunction() throws Exception {
+		String url = "/functions/find-by-function/maneger";
+		String accept = "application/json";
+		
+		mockMvc.perform(get(url).accept(accept))
 		       .andDo(print())
 		       .andExpect(status().is(200));
 	}
