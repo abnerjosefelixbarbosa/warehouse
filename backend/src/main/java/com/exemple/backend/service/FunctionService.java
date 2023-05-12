@@ -15,11 +15,15 @@ public class FunctionService implements FunctionFace {
 	@Autowired
 	private FunctionRepository functionRepository;
 	
-	public void save(Function function) {
+	public String create(Function function) throws Exception {
+		validCreate(function);		
 		functionRepository.save(function);
+		return "function created";
 	}
 	
-	public void validCreate(Function function) throws Exception {
+	private void validCreate(Function function) throws Exception {
+		if (function.getFunction() == null)
+			throw new Exception("function is null");
 		if (function.getFunction().isEmpty())
 			throw new Exception("function is empty");
 		if (function.getFunction().length() > 30) 
@@ -28,7 +32,20 @@ public class FunctionService implements FunctionFace {
 			throw new Exception("function already exists");
 	}
 	
-	public void validUpdata(Function function) throws Exception {
+	public String updata(Function function) throws Exception {
+		validUpdata(function);		
+		if (!functionRepository.existsById(function.getId())) 
+			return "function not found";
+		
+		functionRepository.save(function);
+		return "function updated";
+	} 
+	
+	private void validUpdata(Function function) throws Exception {
+		if (function.getId() == null)
+			throw new Exception("id is null");
+		if (function.getFunction() == null)
+			throw new Exception("function is null");
 		if (function.getFunction().isEmpty())
 			throw new Exception("function is empty");
 		if (function.getFunction().length() > 30) 
@@ -37,7 +54,7 @@ public class FunctionService implements FunctionFace {
 			throw new Exception("function already exists");
 	}
 	
-	public List<Function> findAll() {
+	public List<Function> list() {
 		return functionRepository.findAll();
 	}
 	
@@ -49,7 +66,11 @@ public class FunctionService implements FunctionFace {
 		return functionRepository.findByFunction(function).orElse(null);
 	}
 	
-	public void deleteById(UUID id) {
+	public String deleteById(UUID id) {
+		if (!functionRepository.existsById(id))
+			return "function not found";
+		
 		functionRepository.deleteById(id);
-	} 
+		return "function deleted";
+	}
 }

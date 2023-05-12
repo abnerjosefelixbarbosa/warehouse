@@ -40,7 +40,7 @@ public class FunctionControllerTest {
 		String url = "/functions/create";
 		String contentType = "application/json";
 		String accept = "application/json";
-		String json = objectMapper.writeValueAsString(function1);
+		String json = objectMapper.writeValueAsString(function2);
 		
 		mockMvc.perform(post(url).contentType(contentType).accept(accept).content(json))
 		       .andDo(print())
@@ -59,7 +59,7 @@ public class FunctionControllerTest {
 		Function function3 = new Function();
 		function3.setFunction("function3");
 		
-		String url = "/functions/updata/f3140f21-240b-472d-abfd-69732b3d5dbd";
+		String url = "/functions/updata/2582717c-7b1e-41bf-9901-66aa4b38d9a5";
 		String contentType = "application/json";
 		String accept = "application/json";
 		String json = objectMapper.writeValueAsString(function1);
@@ -83,7 +83,7 @@ public class FunctionControllerTest {
 	@Test
 	@Disabled
 	public void findById() throws Exception {
-		String url = "/functions/find-by-id/f3140f21-240b-472d-abfd-69732b3d5dbd";
+		String url = "/functions/find-by-id/2582717c-7b1e-41bf-9901-66aa4b38d9a5";
 		String accept = "application/json";
 		
 		mockMvc.perform(get(url).accept(accept))
@@ -94,7 +94,7 @@ public class FunctionControllerTest {
 	@Test
 	@Disabled
 	public void findByFunction() throws Exception {
-		String url = "/functions/find-by-function/maneger";
+		String url = "/functions/find-by-function/function1";
 		String accept = "application/json";
 		
 		mockMvc.perform(get(url).accept(accept))
@@ -105,7 +105,7 @@ public class FunctionControllerTest {
 	@Test
 	@Disabled
 	public void deleteById() throws Exception {
-		String url = "/functions/delete-by-id/f3140f21-240b-472d-abfd-69732b3d5dbd";
+		String url = "/functions/delete-by-id/2582717c-7b1e-41bf-9901-66aa4b38d9a5";
 		String accept = "application/json";
 		
 		mockMvc.perform(delete(url).accept(accept))

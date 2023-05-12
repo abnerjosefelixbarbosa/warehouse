@@ -6,11 +6,10 @@ import java.util.UUID;
 import com.exemple.backend.entity.Function;
 
 public interface FunctionFace {
-	void save(Function function);
-	void validCreate(Function function) throws Exception;
-	void validUpdata(Function function) throws Exception;
-	List<Function> findAll();
+	String create(Function function) throws Exception;
+	String updata(Function function) throws Exception;
+	List<Function> list();
 	Function findById(UUID id);
 	Function findByFunction(String function);
-	void deleteById(UUID id);
+	String deleteById(UUID id);
 }

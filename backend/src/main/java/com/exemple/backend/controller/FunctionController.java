@@ -30,10 +30,8 @@ public class FunctionController {
 		try {
 			Function function = new Function();
 			BeanUtils.copyProperties(functionDto, function);
-			
-			functionFace.validCreate(function);
-			functionFace.save(function);
-			return ResponseEntity.status(200).body("function created");
+			String create = functionFace.create(function);
+			return ResponseEntity.status(200).body(create);
 		} catch (Exception e) {
 			return ResponseEntity.status(400).body(e.getMessage());
 		}	
@@ -44,15 +42,13 @@ public class FunctionController {
 		try {
 			Function function = new Function();
 			BeanUtils.copyProperties(functionDto, function);
-			
 			function.setId(id);
-			Function findById = functionFace.findById(function.getId());
-			if (findById == null) 
-				return ResponseEntity.status(404).body("function not found");
 			
-			functionFace.validUpdata(function);
-			functionFace.save(function);
-			return ResponseEntity.status(200).body("function updated");
+			String updata = functionFace.updata(function);
+			if (updata.equals("function not found")) 
+				return ResponseEntity.status(404).body(updata);
+			
+			return ResponseEntity.status(200).body(updata);
 		} catch (Exception e) { 
 			return ResponseEntity.status(400).body(e.getMessage());
 		}
@@ -60,18 +56,17 @@ public class FunctionController {
 	
 	@GetMapping("/list")
 	public ResponseEntity<List<Function>> list() {
-		List<Function> functions = functionFace.findAll();
+		List<Function> functions = functionFace.list();
 		return ResponseEntity.status(200).body(functions);
 	}
 	
 	@GetMapping("/find-by-id/{id}")
 	public ResponseEntity<Function> findById(@PathVariable UUID id) {
 		Function findById = functionFace.findById(id);
-		if (findById == null) {
+		if (findById == null) 
 			return ResponseEntity.status(404).body(null);
-		} else {
+		else 
 			return ResponseEntity.status(200).body(findById);
-		}
 	}
 	
 	@GetMapping("/find-by-function/{function}")
@@ -85,11 +80,10 @@ public class FunctionController {
 	
 	@DeleteMapping("/delete-by-id/{id}")
 	public ResponseEntity<String> deleteById(@PathVariable UUID id) {
-		Function findById = functionFace.findById(id);
-		if (findById == null) 
-			return ResponseEntity.status(404).body("function not found");
-			
-		functionFace.deleteById(id);
-		return ResponseEntity.status(200).body("function deleted");
+		String deleteById = functionFace.deleteById(id);
+		if (deleteById.equals("function not found")) 
+			return ResponseEntity.status(404).body(deleteById);
+		
+		return ResponseEntity.status(200).body(deleteById);
 	} 
 }
