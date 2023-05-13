@@ -1,6 +1,7 @@
 package com.exemple.backend.entity;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.CascadeType;
@@ -10,8 +11,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -19,7 +22,7 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@ToString(exclude = {"employee", "address"})
+@ToString(exclude = {"employee", "address", "brands"})
 @Entity(name = "product")
 public class Product {
 	@Id
@@ -27,10 +30,6 @@ public class Product {
 	private UUID id;	
 	@Column(nullable = false, length = 100)
 	private String product;	
-	@Column(nullable = false, length = 50)
-	private String brand;	
-	@Column(nullable = false)
-	private Integer size;	
 	@JsonFormat(pattern = "yyyy-MM-dd@HH:mmZ")
 	@Column(nullable = false)
 	private Date date;	
@@ -42,4 +41,7 @@ public class Product {
 	@ManyToOne(cascade = CascadeType.REMOVE)
 	@JoinColumn(name = "matriculation", nullable = false)
 	private Employee employee;	
+	@JsonIgnore
+	@OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
+	private List<Brand> brands;
 }
