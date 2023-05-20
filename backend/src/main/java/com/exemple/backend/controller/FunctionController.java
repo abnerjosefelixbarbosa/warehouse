@@ -31,14 +31,14 @@ public class FunctionController {
 	@Autowired
 	private FunctionFace functionFace;
 	
-	@ApiOperation("create")
+	@ApiOperation("save")
 	@ApiResponses({
 		@ApiResponse(code = 201, message = "Created"),
 		@ApiResponse(code = 400, message = "Bad request")
 	})
 	@ResponseStatus(HttpStatus.CREATED)
-	@PostMapping("/create")
-	public ResponseEntity<String> create(@RequestBody FunctionDto functionDto) {
+	@PostMapping("/save")
+	public ResponseEntity<String> save(@RequestBody FunctionDto functionDto) {
 		try {
 			Function function = new Function();
 			BeanUtils.copyProperties(functionDto, function);

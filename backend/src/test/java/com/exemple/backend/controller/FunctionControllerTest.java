@@ -27,17 +27,17 @@ public class FunctionControllerTest {
 	
 	@Test
 	@Disabled
-	public void create() throws Exception {
+	public void save() throws Exception {
 		Function function1 = new Function();
 		function1.setName("function1");		
 		Function function2 = new Function();
 		function2.setName("function2");
 		Function function3 = new Function();
 		function3.setName("function3");
-		final String URL = "/functions/create";
+		final String URL = "/functions/save";
 		final String CONTENT_TYPE = "application/json";
 		final String ACCEPT = "application/json";
-		final String JSON = objectMapper.writeValueAsString(function2);		
+		final String JSON = objectMapper.writeValueAsString(function2);	
 		mockMvc.perform(post(URL).contentType(CONTENT_TYPE).accept(ACCEPT).content(JSON))
 		       .andDo(print())
 		       .andExpect(status().is(201));
