@@ -29,53 +29,26 @@ public class FunctionControllerTest {
 	@Disabled
 	public void create() throws Exception {
 		Function function1 = new Function();
-		function1.setFunction("function1");		
-		
+		function1.setName("function1");		
 		Function function2 = new Function();
-		function2.setFunction("function2");
-		
+		function2.setName("function2");
 		Function function3 = new Function();
-		function3.setFunction("function3");
-		
-		String url = "/functions/create";
-		String contentType = "application/json";
-		String accept = "application/json";
-		String json = objectMapper.writeValueAsString(function2);
-		
-		mockMvc.perform(post(url).contentType(contentType).accept(accept).content(json))
+		function3.setName("function3");
+		final String URL = "/functions/create";
+		final String CONTENT_TYPE = "application/json";
+		final String ACCEPT = "application/json";
+		final String JSON = objectMapper.writeValueAsString(function2);		
+		mockMvc.perform(post(URL).contentType(CONTENT_TYPE).accept(ACCEPT).content(JSON))
 		       .andDo(print())
-		       .andExpect(status().is(200));
-	}
-	
-	@Test
-	@Disabled
-	public void updata() throws Exception {
-		Function function1 = new Function();
-		function1.setFunction("function1");		
-		
-		Function function2 = new Function();
-		function2.setFunction("function2");
-		
-		Function function3 = new Function();
-		function3.setFunction("function3");
-		
-		String url = "/functions/updata/2582717c-7b1e-41bf-9901-66aa4b38d9a5";
-		String contentType = "application/json";
-		String accept = "application/json";
-		String json = objectMapper.writeValueAsString(function1);
-		
-		mockMvc.perform(put(url).contentType(contentType).accept(accept).content(json))
-		       .andDo(print())
-		       .andExpect(status().is(200));
+		       .andExpect(status().is(201));
 	}
 	
 	@Test
 	@Disabled
 	public void list() throws Exception {
-		String url = "/functions/list";
-		String accept = "application/json";
-		
-		mockMvc.perform(get(url).accept(accept))
+		final String URL = "/functions/list";
+		final String ACCEPT = "application/json";		
+		mockMvc.perform(get(URL).accept(ACCEPT))
 		       .andDo(print())
 		       .andExpect(status().is(200));
 	}
@@ -83,32 +56,49 @@ public class FunctionControllerTest {
 	@Test
 	@Disabled
 	public void findById() throws Exception {
-		String url = "/functions/find-by-id/2582717c-7b1e-41bf-9901-66aa4b38d9a5";
-		String accept = "application/json";
-		
-		mockMvc.perform(get(url).accept(accept))
+		final String URL = "/functions/find-by-id/31bf1bdb-49a0-4cb8-bdee-0c88679fc8a8";
+		final String ACCEPT = "application/json";		
+		mockMvc.perform(get(URL).accept(ACCEPT))
 		       .andDo(print())
 		       .andExpect(status().is(200));
 	}
 	
 	@Test
 	@Disabled
-	public void findByFunction() throws Exception {
-		String url = "/functions/find-by-function/function1";
-		String accept = "application/json";
-		
-		mockMvc.perform(get(url).accept(accept))
+	public void findByName() throws Exception {
+		final String URL = "/functions/find-by-name/function1";
+		final String ACCEPT = "application/json";		
+		mockMvc.perform(get(URL).accept(ACCEPT))
 		       .andDo(print())
 		       .andExpect(status().is(200));
 	}
 	
 	@Test
 	@Disabled
+	public void update() throws Exception {
+		Function function1 = new Function();
+		function1.setName("function1");		
+		Function function2 = new Function();
+		function2.setName("function2");		
+		Function function3 = new Function();
+		function3.setName("function3");		
+		Function function4 = new Function();
+		function4.setName("function4");		
+		final String URL = "/functions/update/31bf1bdb-49a0-4cb8-bdee-0c88679fc8a8";
+		final String CONTENT_TYPE = "application/json";
+		final String ACCEPT = "application/json";
+		final String JSON = objectMapper.writeValueAsString(function1);
+		mockMvc.perform(put(URL).contentType(CONTENT_TYPE).accept(ACCEPT).content(JSON))
+		       .andDo(print())
+		       .andExpect(status().is(200));
+	}
+	
+	@Test
+	//@Disabled
 	public void deleteById() throws Exception {
-		String url = "/functions/delete-by-id/2582717c-7b1e-41bf-9901-66aa4b38d9a5";
-		String accept = "application/json";
-		
-		mockMvc.perform(delete(url).accept(accept))
+		final String URL = "/functions/delete-by-id/31bf1bdb-49a0-4cb8-bdee-0c88679fc8a8";
+		final String ACCEPT = "application/json";		
+		mockMvc.perform(delete(URL).accept(ACCEPT))
 		       .andDo(print())
 		       .andExpect(status().is(200));
 	}

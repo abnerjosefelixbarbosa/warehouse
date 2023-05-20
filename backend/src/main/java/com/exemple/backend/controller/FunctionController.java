@@ -31,28 +31,11 @@ public class FunctionController {
 			Function function = new Function();
 			BeanUtils.copyProperties(functionDto, function);
 			String create = functionFace.create(function);
-			return ResponseEntity.status(200).body(create);
+			return ResponseEntity.status(201).body(create);
 		} catch (Exception e) {
 			return ResponseEntity.status(400).body(e.getMessage());
 		}	
 	}
-	
-	@PutMapping("/updata/{id}")
-	public ResponseEntity<String> updata(@PathVariable UUID id, @RequestBody FunctionDto functionDto) {
-		try {
-			Function function = new Function();
-			BeanUtils.copyProperties(functionDto, function);
-			function.setId(id);
-			
-			String updata = functionFace.updata(function);
-			if (updata.equals("function not found")) 
-				return ResponseEntity.status(404).body(updata);
-			
-			return ResponseEntity.status(200).body(updata);
-		} catch (Exception e) { 
-			return ResponseEntity.status(400).body(e.getMessage());
-		}
-	} 
 	
 	@GetMapping("/list")
 	public ResponseEntity<List<Function>> list() {
@@ -61,29 +44,43 @@ public class FunctionController {
 	}
 	
 	@GetMapping("/find-by-id/{id}")
-	public ResponseEntity<Function> findById(@PathVariable UUID id) {
+	public ResponseEntity<?> findById(@PathVariable UUID id) {
 		Function findById = functionFace.findById(id);
 		if (findById == null) 
-			return ResponseEntity.status(404).body(null);
+			return ResponseEntity.status(404).body("function not found");
 		else 
 			return ResponseEntity.status(200).body(findById);
 	}
 	
-	@GetMapping("/find-by-function/{function}")
-	public ResponseEntity<Function> findByFunction(@PathVariable String function) {
-		Function findByFunction = functionFace.findByFunction(function);
+	@GetMapping("/find-by-name/{name}")
+	public ResponseEntity<?> findByName(@PathVariable String name) {
+		Function findByFunction = functionFace.findByName(name);
 		if (findByFunction == null) 
-			return ResponseEntity.status(404).body(null);
+			return ResponseEntity.status(404).body("function not found");
 		else 
 			return ResponseEntity.status(200).body(findByFunction);
 	}
+	
+	@PutMapping("/update/{id}")
+	public ResponseEntity<String> update(@PathVariable UUID id, @RequestBody FunctionDto functionDto) {
+		try {
+			Function function = new Function();
+			BeanUtils.copyProperties(functionDto, function);
+			function.setId(id);			
+			String updata = functionFace.updata(function);
+			if (updata.equals("function not found")) 
+				return ResponseEntity.status(404).body(updata);			
+			return ResponseEntity.status(200).body(updata);
+		} catch (Exception e) { 
+			return ResponseEntity.status(400).body(e.getMessage());
+		}
+	} 
 	
 	@DeleteMapping("/delete-by-id/{id}")
 	public ResponseEntity<String> deleteById(@PathVariable UUID id) {
 		String deleteById = functionFace.deleteById(id);
 		if (deleteById.equals("function not found")) 
-			return ResponseEntity.status(404).body(deleteById);
-		
+			return ResponseEntity.status(404).body(deleteById);		
 		return ResponseEntity.status(200).body(deleteById);
 	} 
 }

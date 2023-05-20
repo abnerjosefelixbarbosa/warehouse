@@ -7,9 +7,9 @@ import com.exemple.backend.entity.Function;
 
 public interface FunctionFace {
 	String create(Function function) throws Exception;
-	String updata(Function function) throws Exception;
 	List<Function> list();
 	Function findById(UUID id);
-	Function findByFunction(String function);
+	Function findByName(String name);
+	String updata(Function function) throws Exception;
 	String deleteById(UUID id);
 }

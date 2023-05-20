@@ -10,6 +10,6 @@ import com.exemple.backend.entity.Function;
 
 @Repository
 public interface FunctionRepository extends JpaRepository<Function, UUID> {
-	boolean existsByFunction(String function);
-	Optional<Function> findByFunction(String function);
+	boolean existsByName(String name);
+	Optional<Function> findByName(String name);
 }

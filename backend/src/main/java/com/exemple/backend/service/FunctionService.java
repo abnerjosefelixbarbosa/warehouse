@@ -22,35 +22,11 @@ public class FunctionService implements FunctionFace {
 	}
 	
 	private void validCreate(Function function) throws Exception {
-		if (function.getFunction() == null)
-			throw new Exception("function is null");
-		if (function.getFunction().isEmpty())
-			throw new Exception("function is empty");
-		if (function.getFunction().length() > 30) 
+		if (function.getName() == null || function.getName().isEmpty())
+			throw new Exception("function is required");
+		if (function.getName().length() > 30) 
 			throw new Exception("function is greater than 30 characters");
-		if (functionRepository.existsByFunction(function.getFunction()))
-			throw new Exception("function already exists");
-	}
-	
-	public String updata(Function function) throws Exception {
-		validUpdata(function);		
-		if (!functionRepository.existsById(function.getId())) 
-			return "function not found";
-		
-		functionRepository.save(function);
-		return "function updated";
-	} 
-	
-	private void validUpdata(Function function) throws Exception {
-		if (function.getId() == null)
-			throw new Exception("id is null");
-		if (function.getFunction() == null)
-			throw new Exception("function is null");
-		if (function.getFunction().isEmpty())
-			throw new Exception("function is empty");
-		if (function.getFunction().length() > 30) 
-			throw new Exception("function is greater than 30 characters");
-		if (functionRepository.existsByFunction(function.getFunction()))
+		if (functionRepository.existsByName(function.getName()))
 			throw new Exception("function already exists");
 	}
 	
@@ -62,14 +38,32 @@ public class FunctionService implements FunctionFace {
 		return functionRepository.findById(id).orElse(null);
 	}
 	
-	public Function findByFunction(String function) {
-		return functionRepository.findByFunction(function).orElse(null);
+	public Function findByName(String name) {
+		return functionRepository.findByName(name).orElse(null);
+	}
+	
+	public String updata(Function function) throws Exception {
+		if (findById(function.getId()) == null) 
+			return "function not found";	
+		validUpdata(function);
+		functionRepository.save(function);
+		return "function updated";
+	} 
+	
+	private void validUpdata(Function function) throws Exception {
+		if (function.getId() == null)
+			throw new Exception("id is required");
+		if (function.getName() == null || function.getName().isEmpty())
+			throw new Exception("function is required");
+		if (function.getName().length() > 30) 
+			throw new Exception("function is greater than 30 characters");
+		if (functionRepository.existsByName(function.getName()))
+			throw new Exception("function already exists");
 	}
 	
 	public String deleteById(UUID id) {
-		if (!functionRepository.existsById(id))
-			return "function not found";
-		
+		if (findById(id) == null)
+			return "function not found";		
 		functionRepository.deleteById(id);
 		return "function deleted";
 	}
