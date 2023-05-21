@@ -15,15 +15,17 @@ public class FunctionService implements FunctionFace {
 	@Autowired
 	private FunctionRepository functionRepository;
 	
-	public String create(Function function) throws Exception {
+	public String save(Function function) throws Exception {
 		validCreate(function);		
 		functionRepository.save(function);
-		return "function created";
+		return "function save";
 	}
 	
 	private void validCreate(Function function) throws Exception {
-		if (function.getName() == null || function.getName().isEmpty())
-			throw new Exception("function is required");
+		if (function.getName() == null)
+			throw new Exception("function is null");
+		if (function.getName().isEmpty())
+			throw new Exception("function is empty");
 		if (function.getName().length() > 30) 
 			throw new Exception("function is greater than 30 characters");
 		if (functionRepository.existsByName(function.getName()))

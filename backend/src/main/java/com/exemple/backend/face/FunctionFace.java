@@ -6,7 +6,7 @@ import java.util.UUID;
 import com.exemple.backend.entity.Function;
 
 public interface FunctionFace {
-	String create(Function function) throws Exception;
+	String save(Function function) throws Exception;
 	List<Function> list();
 	Function findById(UUID id);
 	Function findByName(String name);

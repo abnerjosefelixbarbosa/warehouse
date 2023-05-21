@@ -29,18 +29,18 @@ public class FunctionControllerTest {
 	@Disabled
 	public void save() throws Exception {
 		Function function1 = new Function();
-		function1.setName("function1");		
+		function1.setName("manager");		
 		Function function2 = new Function();
-		function2.setName("function2");
+		function2.setName("coordinator");
 		Function function3 = new Function();
-		function3.setName("function3");
+		function3.setName("charger");
 		final String URL = "/functions/save";
 		final String CONTENT_TYPE = "application/json";
 		final String ACCEPT = "application/json";
-		final String JSON = objectMapper.writeValueAsString(function2);	
+		final String JSON = objectMapper.writeValueAsString(function1);	
 		mockMvc.perform(post(URL).contentType(CONTENT_TYPE).accept(ACCEPT).content(JSON))
-		       .andDo(print())
-		       .andExpect(status().is(201));
+	       .andDo(print())
+	       .andExpect(status().is(201));
 	}
 	
 	@Test
@@ -94,7 +94,7 @@ public class FunctionControllerTest {
 	}
 	
 	@Test
-	//@Disabled
+	@Disabled
 	public void deleteById() throws Exception {
 		final String URL = "/functions/delete-by-id/31bf1bdb-49a0-4cb8-bdee-0c88679fc8a8";
 		final String ACCEPT = "application/json";		

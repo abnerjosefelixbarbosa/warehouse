@@ -42,7 +42,7 @@ public class FunctionController {
 		try {
 			Function function = new Function();
 			BeanUtils.copyProperties(functionDto, function);
-			String create = functionFace.create(function);
+			String create = functionFace.save(function);
 			return ResponseEntity.status(HttpStatus.CREATED).body(create);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
