@@ -1,4 +1,4 @@
-package com.exemple.backend.dto;
+package com.exemple.backend.dtos;
 
 import java.util.UUID;
 

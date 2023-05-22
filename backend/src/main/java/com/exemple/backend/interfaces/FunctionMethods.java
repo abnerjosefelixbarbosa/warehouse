@@ -1,11 +1,11 @@
-package com.exemple.backend.face;
+package com.exemple.backend.interfaces;
 
 import java.util.List;
 import java.util.UUID;
 
-import com.exemple.backend.entity.Function;
+import com.exemple.backend.entities.Function;
 
-public interface FunctionFace {
+public interface FunctionMethods {
 	String save(Function function) throws Exception;
 	List<Function> list();
 	Function findById(UUID id);

@@ -1,11 +1,11 @@
-package com.exemple.backend.repository;
+package com.exemple.backend.repositories;
 
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.exemple.backend.entity.Employee;
+import com.exemple.backend.entities.Employee;
 
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {

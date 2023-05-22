@@ -1,6 +1,6 @@
-package com.exemple.backend.dto;
+package com.exemple.backend.dtos;
 
-import com.exemple.backend.entity.Function;
+import com.exemple.backend.entities.Function;
 
 import lombok.Getter;
 import lombok.Setter;

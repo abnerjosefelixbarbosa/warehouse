@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.exemple.backend.dto.FunctionDto;
-import com.exemple.backend.entity.Function;
-import com.exemple.backend.face.FunctionFace;
+import com.exemple.backend.dtos.FunctionDto;
+import com.exemple.backend.entities.Function;
+import com.exemple.backend.interfaces.FunctionMethods;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -29,7 +29,7 @@ import io.swagger.annotations.ApiResponses;
 @RequestMapping("/functions")
 public class FunctionController {
 	@Autowired
-	private FunctionFace functionFace;
+	private FunctionMethods functionMethods;
 	
 	@ApiOperation("save")
 	@ApiResponses({
@@ -42,7 +42,7 @@ public class FunctionController {
 		try {
 			Function function = new Function();
 			BeanUtils.copyProperties(functionDto, function);
-			String create = functionFace.save(function);
+			String create = functionMethods.save(function);
 			return ResponseEntity.status(HttpStatus.CREATED).body(create);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
@@ -56,7 +56,7 @@ public class FunctionController {
 	@ResponseStatus(HttpStatus.OK)
 	@GetMapping("/list")
 	public ResponseEntity<List<Function>> list() {
-		List<Function> functions = functionFace.list();
+		List<Function> functions = functionMethods.list();
 		return ResponseEntity.status(HttpStatus.OK).body(functions);
 	}
 	
@@ -69,7 +69,7 @@ public class FunctionController {
 	@ResponseStatus(HttpStatus.OK)
 	@GetMapping("/find-by-id/{id}")
 	public ResponseEntity<?> findById(@PathVariable UUID id) {
-		Function findById = functionFace.findById(id);
+		Function findById = functionMethods.findById(id);
 		if (findById == null) 
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("function not found");
 		else 
@@ -84,7 +84,7 @@ public class FunctionController {
 	@ResponseStatus(HttpStatus.OK)
 	@GetMapping("/find-by-name/{name}")
 	public ResponseEntity<?> findByName(@PathVariable String name) {
-		Function findByFunction = functionFace.findByName(name);
+		Function findByFunction = functionMethods.findByName(name);
 		if (findByFunction == null) 
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("function not found");
 		else 
@@ -103,7 +103,7 @@ public class FunctionController {
 			Function function = new Function();
 			BeanUtils.copyProperties(functionDto, function);
 			function.setId(id);			
-			String updata = functionFace.updata(function);
+			String updata = functionMethods.updata(function);
 			if (updata.equals("function not found")) 
 				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(updata);			
 			return ResponseEntity.status(HttpStatus.OK).body(updata);
@@ -120,7 +120,7 @@ public class FunctionController {
 	@ResponseStatus(HttpStatus.OK)
 	@DeleteMapping("/delete-by-id/{id}")
 	public ResponseEntity<String> deleteById(@PathVariable UUID id) {
-		String deleteById = functionFace.deleteById(id);
+		String deleteById = functionMethods.deleteById(id);
 		if (deleteById.equals("function not found")) 
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(deleteById);		
 		return ResponseEntity.status(HttpStatus.OK).body(deleteById);

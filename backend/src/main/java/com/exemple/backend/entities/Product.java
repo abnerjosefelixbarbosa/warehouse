@@ -1,4 +1,4 @@
-package com.exemple.backend.entity;
+package com.exemple.backend.entities;
 
 import java.util.Date;
 import java.util.UUID;

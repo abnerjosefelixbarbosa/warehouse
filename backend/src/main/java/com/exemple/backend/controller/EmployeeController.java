@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.exemple.backend.dto.EmployeeDto;
-import com.exemple.backend.entity.Employee;
-import com.exemple.backend.face.EmployeeFace;
+import com.exemple.backend.dtos.EmployeeDto;
+import com.exemple.backend.entities.Employee;
+import com.exemple.backend.interfaces.EmployeeMethods;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -22,7 +22,7 @@ import io.swagger.annotations.ApiResponses;
 @RequestMapping("/employees")
 public class EmployeeController {
 	@Autowired
-	private EmployeeFace employeeFace;
+	private EmployeeMethods employeeMethods;
 
 	@ApiOperation("save")
 	@ApiResponses({
@@ -35,7 +35,7 @@ public class EmployeeController {
 		try {
 			Employee employee = new Employee();
 			BeanUtils.copyProperties(employeeDto, employee);
-			String save = employeeFace.save(employee);
+			String save = employeeMethods.save(employee);
 			return ResponseEntity.status(HttpStatus.CREATED).body(save);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage()); 

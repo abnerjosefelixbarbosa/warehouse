@@ -14,7 +14,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.exemple.backend.entity.Function;
+import com.exemple.backend.entities.Function;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest

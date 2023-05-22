@@ -1,4 +1,4 @@
-package com.exemple.backend.service;
+package com.exemple.backend.services;
 
 import java.util.List;
 import java.util.UUID;
@@ -6,12 +6,12 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.exemple.backend.entity.Function;
-import com.exemple.backend.face.FunctionFace;
-import com.exemple.backend.repository.FunctionRepository;
+import com.exemple.backend.entities.Function;
+import com.exemple.backend.interfaces.FunctionMethods;
+import com.exemple.backend.repositories.FunctionRepository;
 
 @Service
-public class FunctionService implements FunctionFace {
+public class FunctionService implements FunctionMethods {
 	@Autowired
 	private FunctionRepository functionRepository;
 	
@@ -23,13 +23,13 @@ public class FunctionService implements FunctionFace {
 	
 	private void validCreate(Function function) throws Exception {
 		if (function.getName() == null)
-			throw new Exception("function is null");
+			throw new Exception("name is null");
 		if (function.getName().isEmpty())
-			throw new Exception("function is empty");
+			throw new Exception("name is empty");
 		if (function.getName().length() > 30) 
-			throw new Exception("function is greater than 30 characters");
+			throw new Exception("name is greater than 30 characters");
 		if (functionRepository.existsByName(function.getName()))
-			throw new Exception("function already exists");
+			throw new Exception("name already exists");
 	}
 	
 	public List<Function> list() {
@@ -54,9 +54,11 @@ public class FunctionService implements FunctionFace {
 	
 	private void validUpdata(Function function) throws Exception {
 		if (function.getId() == null)
-			throw new Exception("id is required");
-		if (function.getName() == null || function.getName().isEmpty())
-			throw new Exception("function is required");
+			throw new Exception("id is null");
+		if (function.getName() == null)
+			throw new Exception("name is null");
+		if (function.getName().isEmpty())
+			throw new Exception("name is empty");
 		if (function.getName().length() > 30) 
 			throw new Exception("function is greater than 30 characters");
 		if (functionRepository.existsByName(function.getName()))

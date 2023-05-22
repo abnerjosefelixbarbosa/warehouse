@@ -1,4 +1,4 @@
-package com.exemple.backend.entity;
+package com.exemple.backend.entities;
 
 import java.util.List;
 import java.util.UUID;
@@ -16,14 +16,14 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Entity(name = "brand")
-@JsonIgnoreProperties({"products"})
-public class Brand {
+@Entity(name = "function")
+@JsonIgnoreProperties({"employees"})
+public class Function {
 	@Id
 	@GeneratedValue
 	private UUID id;
-	@Column(nullable = false, unique = true, length = 50)
+	@Column(nullable = false, unique = true, length = 30)
 	private String name;
-	@OneToMany(mappedBy = "brand")
-	private List<Product> products;
+	@OneToMany(mappedBy = "function")
+	private List<Employee> employees;
 }

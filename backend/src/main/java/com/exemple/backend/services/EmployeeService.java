@@ -1,18 +1,18 @@
-package com.exemple.backend.service;
+package com.exemple.backend.services;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.exemple.backend.entity.Employee;
-import com.exemple.backend.entity.Function;
-import com.exemple.backend.face.EmployeeFace;
-import com.exemple.backend.repository.EmployeeRepository;
-import com.exemple.backend.repository.FunctionRepository;
+import com.exemple.backend.entities.Employee;
+import com.exemple.backend.entities.Function;
+import com.exemple.backend.interfaces.EmployeeMethods;
+import com.exemple.backend.repositories.EmployeeRepository;
+import com.exemple.backend.repositories.FunctionRepository;
 
 @Service
-public class EmployeeService implements EmployeeFace {
+public class EmployeeService implements EmployeeMethods {
 	@Autowired
 	private EmployeeRepository employeeRepository;
 	@Autowired
