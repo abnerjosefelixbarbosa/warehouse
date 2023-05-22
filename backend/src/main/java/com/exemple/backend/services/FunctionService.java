@@ -22,14 +22,12 @@ public class FunctionService implements FunctionMethods {
 	}
 	
 	private void validCreate(Function function) throws Exception {
-		if (function.getName() == null)
-			throw new Exception("name is null");
-		if (function.getName().isEmpty())
-			throw new Exception("name is empty");
+		if (function.getName() == null || function.getName().isEmpty())
+			throw new Exception("name must not be null or empty");
 		if (function.getName().length() > 30) 
-			throw new Exception("name is greater than 30 characters");
+			throw new Exception("name must not be greater than 30 characters");
 		if (functionRepository.existsByName(function.getName()))
-			throw new Exception("name already exists");
+			throw new Exception("name cannot be repeated");
 	}
 	
 	public List<Function> list() {
@@ -54,15 +52,13 @@ public class FunctionService implements FunctionMethods {
 	
 	private void validUpdata(Function function) throws Exception {
 		if (function.getId() == null)
-			throw new Exception("id is null");
-		if (function.getName() == null)
-			throw new Exception("name is null");
-		if (function.getName().isEmpty())
-			throw new Exception("name is empty");
+			throw new Exception("id must not be null");
+		if (function.getName() == null || function.getName().isEmpty())
+			throw new Exception("name must not be null or empty");
 		if (function.getName().length() > 30) 
-			throw new Exception("function is greater than 30 characters");
+			throw new Exception("name must not be greater than 30 characters");
 		if (functionRepository.existsByName(function.getName()))
-			throw new Exception("function already exists");
+			throw new Exception("name cannot be repeated");
 	}
 	
 	public String deleteById(UUID id) {
