@@ -4,6 +4,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,5 +41,16 @@ public class EmployeeController {
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage()); 
 		}
+	}
+	
+	@ApiOperation("list")
+	@ApiResponses({
+		@ApiResponse(code = 200, message = "Ok")
+	})
+	@ResponseStatus(HttpStatus.OK)
+	@GetMapping("/list")
+	public ResponseEntity<String> list() {
+			//String save = employeeMethods.save(employee);
+			return ResponseEntity.status(HttpStatus.OK).body(null);
 	}
 }

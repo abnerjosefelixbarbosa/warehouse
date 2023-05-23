@@ -1,5 +1,6 @@
 package com.exemple.backend.controller;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -28,7 +29,7 @@ public class EmployeeControllerTest {
 	public void save() throws Exception {
 		final Double SALARY_MANAGER = 3200.00D;
 		final Double SALARY_COORDINATOR = 2200.00D;
-		final Double SALARY_CHAGER = 1200.00D;
+		//final Double SALARY_CHAGER = 1200.00D;
 		
 		Function function1 = new Function();
 		function1.setName("manager");
@@ -80,5 +81,17 @@ public class EmployeeControllerTest {
 		mockMvc.perform(post(URL).contentType(CONTENT_TYPE).accept(ACCEPT).content(JSON))
 		       .andDo(print())
 		       .andExpect(status().is(201));
+	}
+	
+	@Test
+	//@Disabled
+	public void list() throws Exception {
+		
+		final String URL = "/employees/list";
+		final String ACCEPT = "application/json";
+		
+		mockMvc.perform(get(URL).accept(ACCEPT))
+	       .andDo(print())
+	       .andExpect(status().is(200));
 	}
 }

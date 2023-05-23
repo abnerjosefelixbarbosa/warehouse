@@ -23,11 +23,12 @@ public class FunctionService implements FunctionMethods {
 	
 	private void validCreate(Function function) throws Exception {
 		if (function.getName() == null || function.getName().isEmpty())
-			throw new Exception("name must not be null or empty");
+			throw new Exception("name is null or empty");
 		if (function.getName().length() > 30) 
-			throw new Exception("name must not be greater than 30 characters");
-		if (functionRepository.existsByName(function.getName()))
-			throw new Exception("name cannot be repeated");
+			throw new Exception("name is greater than 30 characters");
+	 	Function findByName = functionRepository.findByName(function.getName()).orElse(null);
+		if (findByName != null)
+			throw new Exception("existing name");
 	}
 	
 	public List<Function> list() {
@@ -43,7 +44,8 @@ public class FunctionService implements FunctionMethods {
 	}
 	
 	public String updata(Function function) throws Exception {
-		if (findById(function.getId()) == null) 
+		Function findById = findById(function.getId());
+		if (findById == null) 
 			return "function not found";	
 		validUpdata(function);
 		functionRepository.save(function);
@@ -51,14 +53,13 @@ public class FunctionService implements FunctionMethods {
 	} 
 	
 	private void validUpdata(Function function) throws Exception {
-		if (function.getId() == null)
-			throw new Exception("id must not be null");
 		if (function.getName() == null || function.getName().isEmpty())
-			throw new Exception("name must not be null or empty");
+			throw new Exception("name is null or empty");
 		if (function.getName().length() > 30) 
-			throw new Exception("name must not be greater than 30 characters");
-		if (functionRepository.existsByName(function.getName()))
-			throw new Exception("name cannot be repeated");
+			throw new Exception("name is greater than 30 characters");
+		Function findByName = functionRepository.findByName(function.getName()).orElse(null);
+		if (findByName != null)
+			throw new Exception("existing name");
 	}
 	
 	public String deleteById(UUID id) {
