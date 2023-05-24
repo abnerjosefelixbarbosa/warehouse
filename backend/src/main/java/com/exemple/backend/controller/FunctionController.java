@@ -42,8 +42,8 @@ public class FunctionController {
 		try {
 			Function function = new Function();
 			BeanUtils.copyProperties(functionDto, function);
-			String create = functionMethods.save(function);
-			return ResponseEntity.status(HttpStatus.CREATED).body(create);
+			String save = functionMethods.save(function);
+			return ResponseEntity.status(HttpStatus.CREATED).body(save);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}	
@@ -58,22 +58,6 @@ public class FunctionController {
 	public ResponseEntity<List<Function>> list() {
 		List<Function> functions = functionMethods.list();
 		return ResponseEntity.status(HttpStatus.OK).body(functions);
-	}
-	
-	
-	@ApiOperation("find by id")
-	@ApiResponses({
-		@ApiResponse(code = 200, message = "Ok"),
-		@ApiResponse(code = 404, message = "Not find")
-	})
-	@ResponseStatus(HttpStatus.OK)
-	@GetMapping("/find-by-id/{id}")
-	public ResponseEntity<?> findById(@PathVariable UUID id) {
-		Function findById = functionMethods.findById(id);
-		if (findById == null) 
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("function not found");
-		else 
-			return ResponseEntity.status(HttpStatus.OK).body(findById);
 	}
 	
 	@ApiOperation("find by name")

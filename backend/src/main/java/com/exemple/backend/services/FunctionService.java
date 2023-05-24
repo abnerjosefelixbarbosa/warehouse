@@ -16,27 +16,23 @@ public class FunctionService implements FunctionMethods {
 	private FunctionRepository functionRepository;
 	
 	public String save(Function function) throws Exception {
-		validCreate(function);		
+		validSave(function);
 		functionRepository.save(function);
 		return "function save";
 	}
 	
-	private void validCreate(Function function) throws Exception {
+	private void validSave(Function function) throws Exception {
 		if (function.getName() == null || function.getName().isEmpty())
 			throw new Exception("name is null or empty");
 		if (function.getName().length() > 30) 
 			throw new Exception("name is greater than 30 characters");
-	 	Function findByName = functionRepository.findByName(function.getName()).orElse(null);
+	 	Function findByName = findByName(function.getName());
 		if (findByName != null)
 			throw new Exception("existing name");
 	}
 	
 	public List<Function> list() {
-		return functionRepository.findAll();
-	}
-	
-	public Function findById(UUID id) {
-		return functionRepository.findById(id).orElse(null);
+		return functionRepository.findByOrderByName();
 	}
 	
 	public Function findByName(String name) {
@@ -44,7 +40,7 @@ public class FunctionService implements FunctionMethods {
 	}
 	
 	public String updata(Function function) throws Exception {
-		Function findById = findById(function.getId());
+		Function findById = functionRepository.findById(function.getId()).orElse(null);
 		if (findById == null) 
 			return "function not found";	
 		validUpdata(function);
@@ -63,7 +59,8 @@ public class FunctionService implements FunctionMethods {
 	}
 	
 	public String deleteById(UUID id) {
-		if (findById(id) == null)
+		Function findById = functionRepository.findById(id).orElse(null);
+		if (findById == null)
 			return "function not found";		
 		functionRepository.deleteById(id);
 		return "function deleted";
