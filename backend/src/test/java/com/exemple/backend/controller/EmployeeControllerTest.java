@@ -58,13 +58,12 @@ public class EmployeeControllerTest {
 	
 	@Test
 	@Disabled
-	public void list() throws Exception {
-		
+	public void list() throws Exception {	
 		final String URL = "/employees/list";
 		final String ACCEPT = "application/json";
 		
 		mockMvc.perform(get(URL).accept(ACCEPT))
-	       .andDo(print())
-	       .andExpect(status().is(200));
+	           .andDo(print())
+	           .andExpect(status().is(200));
 	}
 }

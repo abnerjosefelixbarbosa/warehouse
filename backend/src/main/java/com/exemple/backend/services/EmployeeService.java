@@ -48,4 +48,8 @@ public class EmployeeService implements EmployeeMethods {
 		if (findByFunctionName.size() == 3 && employee.getFunction().getName() == "coordinator")
 			throw new Exception("there is already three coordinators");
 	}
+	
+	public List<Employee> list() {
+		return employeeRepository.findByOrderByName();
+	}
 }

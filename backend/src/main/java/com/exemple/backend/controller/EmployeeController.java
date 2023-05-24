@@ -1,5 +1,7 @@
 package com.exemple.backend.controller;
 
+import java.util.List;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -49,8 +51,8 @@ public class EmployeeController {
 	})
 	@ResponseStatus(HttpStatus.OK)
 	@GetMapping("/list")
-	public ResponseEntity<String> list() {
-			//String save = employeeMethods.save(employee);
-			return ResponseEntity.status(HttpStatus.OK).body(null);
+	public ResponseEntity<List<Employee>> list() {
+			List<Employee> employees = employeeMethods.list();
+			return ResponseEntity.status(HttpStatus.OK).body(employees);
 	}
 }
