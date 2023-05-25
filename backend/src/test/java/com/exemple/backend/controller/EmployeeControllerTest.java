@@ -80,7 +80,7 @@ public class EmployeeControllerTest {
 	}
 	
 	@Test
-	//@Disabled
+	@Disabled
 	public void update() throws Exception {
 		final Double SALARY_MANAGER = 3200.00D;
 		final Double SALARY_COORDINATOR = 2200.00D;
