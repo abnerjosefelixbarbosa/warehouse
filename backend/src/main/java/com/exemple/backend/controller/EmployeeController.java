@@ -55,4 +55,14 @@ public class EmployeeController {
 			List<Employee> employees = employeeMethods.list();
 			return ResponseEntity.status(HttpStatus.OK).body(employees);
 	}
+	
+	@ApiOperation("find by matriculation")
+	@ApiResponses({
+		@ApiResponse(code = 200, message = "Ok")
+	})
+	@ResponseStatus(HttpStatus.OK)
+	@GetMapping("/find-by-matriculation")
+	public ResponseEntity<?> findByMatriculation() {
+		return ResponseEntity.status(HttpStatus.OK).body(null);
+	}
 }

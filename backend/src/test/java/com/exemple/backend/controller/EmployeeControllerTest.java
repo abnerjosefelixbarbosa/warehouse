@@ -66,4 +66,13 @@ public class EmployeeControllerTest {
 	           .andDo(print())
 	           .andExpect(status().is(200));
 	}
+	
+	public void findByMatriculation() throws Exception {
+		final String URL = "/employees/find-by-matriculation";
+		final String ACCEPT = "application/json";
+		
+		mockMvc.perform(get(URL).accept(ACCEPT))
+	           .andDo(print())
+	           .andExpect(status().is(200));
+	}
 }
