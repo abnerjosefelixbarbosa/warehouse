@@ -8,8 +8,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -52,17 +54,43 @@ public class EmployeeController {
 	@ResponseStatus(HttpStatus.OK)
 	@GetMapping("/list")
 	public ResponseEntity<List<Employee>> list() {
-			List<Employee> employees = employeeMethods.list();
-			return ResponseEntity.status(HttpStatus.OK).body(employees);
+		List<Employee> list = employeeMethods.list();
+		return ResponseEntity.status(HttpStatus.OK).body(list);
 	}
 	
 	@ApiOperation("find by matriculation")
 	@ApiResponses({
-		@ApiResponse(code = 200, message = "Ok")
+		@ApiResponse(code = 200, message = "Ok"),
+		@ApiResponse(code = 404, message = "Not found")
 	})
 	@ResponseStatus(HttpStatus.OK)
 	@GetMapping("/find-by-matriculation")
-	public ResponseEntity<?> findByMatriculation() {
-		return ResponseEntity.status(HttpStatus.OK).body(null);
+	public ResponseEntity<?> findByMatriculation(@RequestParam(required = false) Long matriculation) {
+		Employee findByMatriculation = employeeMethods.findByMatriculation(matriculation);
+		if (findByMatriculation == null)
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("employee not found");
+		return ResponseEntity.status(HttpStatus.OK).body(findByMatriculation);
+	}
+	
+	@ApiOperation("update")
+	@ApiResponses({
+		@ApiResponse(code = 200, message = "Ok"),
+		@ApiResponse(code = 404, message = "Not found"),
+		@ApiResponse(code = 400, message = "Bad request")
+	})
+	@ResponseStatus(HttpStatus.OK)
+	@PutMapping("/update")
+	public ResponseEntity<String> update(@RequestParam(required = false) Long matriculation, @RequestBody EmployeeDto employeeDto) {		
+		try {
+			Employee employee = new Employee();
+			BeanUtils.copyProperties(employeeDto, employee);
+			employee.setMatriculation(matriculation);
+			String update = employeeMethods.update(employee);
+			if (update == "employee not found")
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(update);
+			return ResponseEntity.status(HttpStatus.OK).body(update);
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		}
 	}
 }

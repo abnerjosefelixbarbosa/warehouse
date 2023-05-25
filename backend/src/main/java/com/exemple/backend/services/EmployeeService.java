@@ -52,4 +52,35 @@ public class EmployeeService implements EmployeeMethods {
 	public List<Employee> list() {
 		return employeeRepository.findByOrderByName();
 	}
+	
+	public Employee findByMatriculation(Long matriculation) {
+		return employeeRepository.findById(matriculation).orElse(null);
+	}
+
+    public String update(Employee employee) throws Exception {
+        Employee findById = employeeRepository.findById(employee.getMatriculation()).orElse(null);
+        if (findById == null) 
+        	return "employee not found";
+    	validUpdate(employee);
+    	employeeRepository.save(employee);
+    	return "employee updated";
+    }
+    
+    private void validUpdate(Employee employee) throws Exception {
+    	if (employee.getName() == null || employee.getName().isEmpty()) 
+    		throw new Exception("name is null or empty");
+    	if (employee.getName().length() > 100)
+			throw new Exception("name is greater than 100 characters");		
+		if (employee.getSalary() == null || employee.getSalary().longValue() == 0)
+			throw new Exception("salary is null or zero");	
+		Function findByName = functionRepository.findByName(employee.getFunction().getName()).orElse(null);
+		if (findByName == null)
+			throw new Exception("function not exists");
+		employee.setFunction(findByName);
+		List<Employee> findByFunctionName = employeeRepository.findByFunctionName(employee.getFunction().getName());	
+		if (findByFunctionName.size() == 1 && employee.getFunction().getName() == "manager")
+			throw new Exception("there is already one manager");		
+		if (findByFunctionName.size() == 3 && employee.getFunction().getName() == "coordinator")
+			throw new Exception("there is already three coordinators");
+    }
 }
