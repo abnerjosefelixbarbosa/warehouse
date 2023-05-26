@@ -9,10 +9,11 @@ import org.springframework.stereotype.Service;
 import com.exemple.backend.entities.Function;
 import com.exemple.backend.exceptions.EntityBadRequestException;
 import com.exemple.backend.exceptions.EntityNotFoundException;
+import com.exemple.backend.interfaces.FunctionMethods;
 import com.exemple.backend.repositories.FunctionRepository;
 
 @Service
-public class FunctionService {
+public class FunctionService implements FunctionMethods {
 	@Autowired
 	private FunctionRepository functionRepository;
 	
@@ -38,7 +39,7 @@ public class FunctionService {
 	
 	public Function findByName(String name) {
 		return functionRepository.findByName(name).orElseThrow(() -> {
-			return new EntityNotFoundException("name not found");
+			return new EntityNotFoundException("function not found");
 		});
 	}
 	

@@ -6,9 +6,9 @@ import java.util.UUID;
 import com.exemple.backend.entities.Function;
 
 public interface FunctionMethods {
-	String save(Function function) throws Exception;
+	String save(Function function);
 	List<Function> list();
 	Function findByName(String name);
-	String updata(Function function) throws Exception;
+	String updata(Function function);
 	String deleteById(UUID id);
 }
