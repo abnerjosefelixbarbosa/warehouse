@@ -7,28 +7,29 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.exemple.backend.entities.Function;
-import com.exemple.backend.interfaces.FunctionMethods;
+import com.exemple.backend.exceptions.EntityBadRequestException;
+import com.exemple.backend.exceptions.EntityNotFoundException;
 import com.exemple.backend.repositories.FunctionRepository;
 
 @Service
-public class FunctionService implements FunctionMethods {
+public class FunctionService {
 	@Autowired
 	private FunctionRepository functionRepository;
 	
-	public String save(Function function) throws Exception {
+	public String save(Function function) {
 		validSave(function);
 		functionRepository.save(function);
-		return "function save";
+		return "function saved";
 	}
 	
-	private void validSave(Function function) throws Exception {
+	private void validSave(Function function) {
 		if (function.getName() == null || function.getName().isEmpty())
-			throw new Exception("name is null or empty");
+			throw new EntityBadRequestException("name is null or empty");
 		if (function.getName().length() > 30) 
-			throw new Exception("name is greater than 30 characters");
+			throw new EntityBadRequestException("name is greater than 30 characters");
 	 	Function findByName = findByName(function.getName());
 		if (findByName != null)
-			throw new Exception("existing name");
+			throw new EntityBadRequestException("existing name");
 	}
 	
 	public List<Function> list() {
@@ -36,33 +37,43 @@ public class FunctionService implements FunctionMethods {
 	}
 	
 	public Function findByName(String name) {
-		return functionRepository.findByName(name).orElse(null);
+		return functionRepository.findByName(name).orElseThrow(() -> {
+			return new EntityNotFoundException("name not found");
+		});
 	}
 	
-	public String updata(Function function) throws Exception {
-		Function findById = functionRepository.findById(function.getId()).orElse(null);
-		if (findById == null) 
-			return "function not found";	
+	public String updata(Function function) {
 		validUpdata(function);
 		functionRepository.save(function);
 		return "function updated";
 	} 
 	
-	private void validUpdata(Function function) throws Exception {
+	private void validUpdata(Function function) {
+		if (function.getId() == null)
+			throw new EntityBadRequestException("id is null");
+		Function findById = functionRepository.findById(function.getId()).orElse(null);
+		if (findById == null)
+			throw new EntityBadRequestException("id not exists");
 		if (function.getName() == null || function.getName().isEmpty())
-			throw new Exception("name is null or empty");
+			throw new EntityBadRequestException("name is null or empty");
 		if (function.getName().length() > 30) 
-			throw new Exception("name is greater than 30 characters");
+			throw new EntityBadRequestException("name is greater than 30 characters");
 		Function findByName = functionRepository.findByName(function.getName()).orElse(null);
 		if (findByName != null)
-			throw new Exception("existing name");
+			throw new EntityBadRequestException("name exists");
 	}
 	
 	public String deleteById(UUID id) {
-		Function findById = functionRepository.findById(id).orElse(null);
-		if (findById == null)
-			return "function not found";		
+	    validDelete(id);
 		functionRepository.deleteById(id);
 		return "function deleted";
+	}
+	
+	private void validDelete(UUID id) {
+		if (id == null)
+			throw new EntityBadRequestException("id is null");
+		Function findById = functionRepository.findById(id).orElse(null);
+		if (findById == null)
+			throw new EntityBadRequestException("id not exists");
 	}
 }

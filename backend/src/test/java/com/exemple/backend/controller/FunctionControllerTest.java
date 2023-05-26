@@ -28,23 +28,17 @@ public class FunctionControllerTest {
 	@Test
 	@Disabled
 	public void save() throws Exception {
-		Function function1 = new Function();
-		function1.setName("manager");	
-		
-		Function function2 = new Function();
-		function2.setName("coordinator");
-		
-		Function function3 = new Function();
-		function3.setName("charger");
+		Function function = new Function();
+		function.setName("manager");
 		
 		final String URL = "/functions/save";
 		final String CONTENT_TYPE = "application/json";
 		final String ACCEPT = "application/json";
-		final String JSON = objectMapper.writeValueAsString(function1);	
+		final String JSON = objectMapper.writeValueAsString(function);	
 		
 		mockMvc.perform(post(URL).contentType(CONTENT_TYPE).accept(ACCEPT).content(JSON))
-	       .andDo(print())
-	       .andExpect(status().is(201));
+	           .andDo(print())
+	           .andExpect(status().is(201));
 	}
 	
 	@Test
@@ -72,13 +66,14 @@ public class FunctionControllerTest {
 	@Test
 	@Disabled
 	public void update() throws Exception {
-		Function function1 = new Function();
-		function1.setName("manager");	
+		Function function = new Function();
+		function.setName("manager");
 		
-		final String URL = "/functions/update/954a74e4-5e9f-4b1d-b8b1-1a91cffd3f8d";
+		//954a74e4-5e9f-4b1d-b8b1-1a91cffd3f8d
+		final String URL = "/functions/update?id=954a74e4-5e9f-4b1d-b8b1-1a91cffd3f8d";
 		final String CONTENT_TYPE = "application/json";
 		final String ACCEPT = "application/json";
-		final String JSON = objectMapper.writeValueAsString(function1);
+		final String JSON = objectMapper.writeValueAsString(function);
 		
 		mockMvc.perform(put(URL).contentType(CONTENT_TYPE).accept(ACCEPT).content(JSON))
 		       .andDo(print())
@@ -86,9 +81,10 @@ public class FunctionControllerTest {
 	}
 	
 	@Test
-	@Disabled
+	//@Disabled
 	public void deleteById() throws Exception {
-		final String URL = "/functions/delete-by-id/31bf1bdb-49a0-4cb8-bdee-0c88679fc8a8";
+		//31bf1bdb-49a0-4cb8-bdee-0c88679fc8a8
+		final String URL = "/functions/delete-by-id";
 		final String ACCEPT = "application/json";	
 		
 		mockMvc.perform(delete(URL).accept(ACCEPT))

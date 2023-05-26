@@ -11,11 +11,13 @@ import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
-@Getter
-@Setter
+@Data
+@ToString(exclude = {"employees"})
+@EqualsAndHashCode(exclude = {"name","employees"})
 @Entity(name = "function")
 @JsonIgnoreProperties({"employees"})
 public class Function {
