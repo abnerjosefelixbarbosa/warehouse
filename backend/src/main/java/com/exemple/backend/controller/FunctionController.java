@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.exemple.backend.dtos.FunctionDto;
 import com.exemple.backend.entities.Function;
-import com.exemple.backend.services.FunctionService;
+import com.exemple.backend.interfaces.FunctionMethods;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -28,7 +28,7 @@ import io.swagger.annotations.ApiResponses;
 @RequestMapping("/functions")
 public class FunctionController {
 	@Autowired
-	private FunctionService functionMethods;
+	private FunctionMethods functionMethods;
 	
 	@ApiOperation("save")
 	@ApiResponses({
