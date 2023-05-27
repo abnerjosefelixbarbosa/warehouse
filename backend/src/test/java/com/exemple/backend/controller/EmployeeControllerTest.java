@@ -32,25 +32,19 @@ public class EmployeeControllerTest {
 		final Double SALARY_COORDINATOR = 2200.00D;
 		final Double SALARY_CHAGER = 1200.00D;
 		
-		Function function1 = new Function();
-		function1.setName("manager");
+		Function function = new Function();
+		function.setName("manager");
 		
-		Function function2 = new Function();
-		function2.setName("coordinator");
-		
-		Function function3 = new Function();
-		function2.setName("chager");
-		
-		Employee employee1 = new Employee();
-		employee1.setMatriculation(1111111111L);
-		employee1.setName("employee1");
-		employee1.setSalary(SALARY_MANAGER);
-		employee1.setFunction(function1);
+		Employee employee = new Employee();
+		employee.setMatriculation(1111111111L);
+		employee.setName("employee1");
+		employee.setSalary(SALARY_MANAGER);
+		employee.setFunction(function);
 		
 		final String URL = "/employees/save";
 		final String CONTENT_TYPE = "application/json";
 		final String ACCEPT = "application/json";
-		final String JSON = objectMapper.writeValueAsString(employee1);	
+		final String JSON = objectMapper.writeValueAsString(employee);	
 		
 		mockMvc.perform(post(URL).contentType(CONTENT_TYPE).accept(ACCEPT).content(JSON))
 		       .andDo(print())
@@ -71,7 +65,7 @@ public class EmployeeControllerTest {
 	@Test
 	@Disabled
 	public void findByMatriculation() throws Exception {
-		final String URL = "/employees/find-by-matriculation?matriculation=1111111111";
+		final String URL = "/employees/find-by-matriculation/1111111111";
 		final String ACCEPT = "application/json";
 		
 		mockMvc.perform(get(URL).accept(ACCEPT))
@@ -86,24 +80,18 @@ public class EmployeeControllerTest {
 		final Double SALARY_COORDINATOR = 2200.00D;
 		final Double SALARY_CHAGER = 1200.00D;
 		
-		Function function1 = new Function();
-		function1.setName("manager");
+		Function function = new Function();
+		function.setName("manager");
 		
-		Function function2 = new Function();
-		function2.setName("coordinator");
-		
-		Function function3 = new Function();
-		function2.setName("chager");
-		
-		Employee employee1 = new Employee();
-		employee1.setName("employee1");
-		employee1.setSalary(SALARY_MANAGER);
-		employee1.setFunction(function1);		
+		Employee employee = new Employee();
+		employee.setName("employee1");
+		employee.setSalary(SALARY_MANAGER);
+		employee.setFunction(function);		
 		
 		final String URL = "/employees/update?matriculation=1111111111";
 		final String CONTENT_TYPE = "application/json";
 		final String ACCEPT = "application/json";
-		final String JSON = objectMapper.writeValueAsString(employee1);	
+		final String JSON = objectMapper.writeValueAsString(employee);	
 		
 		mockMvc.perform(put(URL).contentType(CONTENT_TYPE).accept(ACCEPT).content(JSON))
                .andDo(print())

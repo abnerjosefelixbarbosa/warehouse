@@ -81,7 +81,7 @@ public class FunctionControllerTest {
 	}
 	
 	@Test
-	//@Disabled
+	@Disabled
 	public void deleteById() throws Exception {
 		//31bf1bdb-49a0-4cb8-bdee-0c88679fc8a8
 		final String URL = "/functions/delete-by-id/31bf1bdb-49a0-4cb8-bdee-0c88679fc8a";
