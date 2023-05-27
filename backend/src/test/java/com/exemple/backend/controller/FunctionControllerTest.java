@@ -70,7 +70,7 @@ public class FunctionControllerTest {
 		function.setName("manager");
 		
 		//954a74e4-5e9f-4b1d-b8b1-1a91cffd3f8d
-		final String URL = "/functions/update?id=954a74e4-5e9f-4b1d-b8b1-1a91cffd3f8d";
+		final String URL = "/functions/update/954a74e4-5e9f-4b1d-b8b1-1a91cffd3f8d";
 		final String CONTENT_TYPE = "application/json";
 		final String ACCEPT = "application/json";
 		final String JSON = objectMapper.writeValueAsString(function);
@@ -81,10 +81,10 @@ public class FunctionControllerTest {
 	}
 	
 	@Test
-	@Disabled
+	//@Disabled
 	public void deleteById() throws Exception {
 		//31bf1bdb-49a0-4cb8-bdee-0c88679fc8a8
-		final String URL = "/functions/delete-by-id";
+		final String URL = "/functions/delete-by-id/31bf1bdb-49a0-4cb8-bdee-0c88679fc8a";
 		final String ACCEPT = "application/json";	
 		
 		mockMvc.perform(delete(URL).accept(ACCEPT))

@@ -39,22 +39,22 @@ public class FunctionService implements FunctionMethods {
 	
 	public Function findByName(String name) {
 		return functionRepository.findByName(name).orElseThrow(() -> {
-			return new EntityNotFoundException("function not found");
+			return new EntityNotFoundException("name not found");
 		});
 	}
 	
 	public String updata(Function function) {
+		if (function.getId() == null)
+			throw new EntityNotFoundException("id not found");
+		Function findById = functionRepository.findById(function.getId()).orElse(null);
+		if (findById == null)
+			throw new EntityNotFoundException("id not found");
 		validUpdata(function);
 		functionRepository.save(function);
 		return "function updated";
 	} 
 	
 	private void validUpdata(Function function) {
-		if (function.getId() == null)
-			throw new EntityBadRequestException("id is null");
-		Function findById = functionRepository.findById(function.getId()).orElse(null);
-		if (findById == null)
-			throw new EntityBadRequestException("id not exists");
 		if (function.getName() == null || function.getName().isEmpty())
 			throw new EntityBadRequestException("name is null or empty");
 		if (function.getName().length() > 30) 
@@ -65,16 +65,12 @@ public class FunctionService implements FunctionMethods {
 	}
 	
 	public String deleteById(UUID id) {
-	    validDelete(id);
+		if (id == null)
+			throw new EntityNotFoundException("id not found");
+	    Function findById = functionRepository.findById(id).orElse(null);
+		if (findById == null)
+			throw new EntityNotFoundException("id not found");
 		functionRepository.deleteById(id);
 		return "function deleted";
-	}
-	
-	private void validDelete(UUID id) {
-		if (id == null)
-			throw new EntityBadRequestException("id is null");
-		Function findById = functionRepository.findById(id).orElse(null);
-		if (findById == null)
-			throw new EntityBadRequestException("id not exists");
 	}
 }
