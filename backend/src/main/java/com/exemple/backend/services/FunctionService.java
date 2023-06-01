@@ -19,6 +19,8 @@ public class FunctionService implements FunctionMethods {
 	
 	public String save(Function function) {
 		validSave(function);
+		UUID uuid = UUID.randomUUID();
+		function.setId(uuid.toString());
 		functionRepository.save(function);
 		return "function saved";
 	}
@@ -28,9 +30,8 @@ public class FunctionService implements FunctionMethods {
 			throw new EntityBadRequestException("name is null or empty");
 		if (function.getName().length() > 30) 
 			throw new EntityBadRequestException("name is greater than 30 characters");
-	 	Function findByName = findByName(function.getName());
-		if (findByName != null)
-			throw new EntityBadRequestException("existing name");
+		if (functionRepository.existsByName(function.getName()))
+			throw new EntityBadRequestException("name exists");
 	}
 	
 	public List<Function> list() {
@@ -44,10 +45,8 @@ public class FunctionService implements FunctionMethods {
 	}
 	
 	public String updata(Function function) {
-		if (function.getId() == null)
-			throw new EntityNotFoundException("id not found");
-		Function findById = functionRepository.findById(function.getId()).orElse(null);
-		if (findById == null)
+		Function functionFound = functionRepository.findById(function.getId()).orElse(null);
+		if (functionFound == null)
 			throw new EntityNotFoundException("id not found");
 		validUpdata(function);
 		functionRepository.save(function);
@@ -59,16 +58,13 @@ public class FunctionService implements FunctionMethods {
 			throw new EntityBadRequestException("name is null or empty");
 		if (function.getName().length() > 30) 
 			throw new EntityBadRequestException("name is greater than 30 characters");
-		Function findByName = functionRepository.findByName(function.getName()).orElse(null);
-		if (findByName != null)
+		if (functionRepository.existsByName(function.getName()))
 			throw new EntityBadRequestException("name exists");
 	}
 	
-	public String deleteById(UUID id) {
-		if (id == null)
-			throw new EntityNotFoundException("id not found");
-	    Function findById = functionRepository.findById(id).orElse(null);
-		if (findById == null)
+	public String deleteById(String id) {
+	    Function functionFound = functionRepository.findById(id).orElse(null);
+		if (functionFound == null)
 			throw new EntityNotFoundException("id not found");
 		functionRepository.deleteById(id);
 		return "function deleted";

@@ -1,7 +1,6 @@
 package com.exemple.backend.controller;
 
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -40,8 +38,8 @@ public class FunctionController {
 	@PostMapping("/save")
 	public ResponseEntity<String> save(@RequestBody FunctionDto functionDto) {
 		Function function = functionDto.factoryFunction();
-		String save = functionMethods.save(function);
-		return ResponseEntity.status(HttpStatus.CREATED).body(save);	
+		String message = functionMethods.save(function);
+		return ResponseEntity.status(HttpStatus.CREATED).body(message);	
 	}
 	
 	@ApiOperation("list")
@@ -61,37 +59,38 @@ public class FunctionController {
 		@ApiResponse(code = 404, message = "Not found")
 	})
 	@ResponseStatus(HttpStatus.OK)
-	@GetMapping("/find-by-name")
-	public ResponseEntity<Function> findByName(@RequestParam(required = false) String name) {
-		Function findByFunction = functionMethods.findByName(name);
-	    return ResponseEntity.status(HttpStatus.OK).body(findByFunction);
+	@GetMapping("/find-by-name/{name}")
+	public ResponseEntity<FunctionDto> findByName(@PathVariable String name) {
+		Function function = functionMethods.findByName(name);
+		FunctionDto dto = function.factoryFunctionDto();
+	    return ResponseEntity.status(HttpStatus.OK).body(dto);
 	}
 	
 	@ApiOperation("update")
 	@ApiResponses({
 		@ApiResponse(code = 200, message = "Ok"),
-		@ApiResponse(code = 404, message = "Not find"),
+		@ApiResponse(code = 404, message = "Not found"),
 		@ApiResponse(code = 400, message = "Bad request")
 	})
 	@ResponseStatus(HttpStatus.OK)
 	@PutMapping("/update/{id}")
-	public ResponseEntity<String> update(@PathVariable UUID id, @RequestBody FunctionDto functionDto) {
+	public ResponseEntity<String> update(@PathVariable String id, @RequestBody FunctionDto functionDto) {
 		Function function = functionDto.factoryFunction();
 		function.setId(id);
-		String updata = functionMethods.updata(function);		
-		return ResponseEntity.status(HttpStatus.OK).body(updata);
+		String message = functionMethods.updata(function);		
+		return ResponseEntity.status(HttpStatus.OK).body(message);
 	} 
 	
 	@ApiOperation("delete by id")
 	@ApiResponses({
 		@ApiResponse(code = 200, message = "Ok"),
-		@ApiResponse(code = 404, message = "Not find")
+		@ApiResponse(code = 404, message = "Not found")
 	})
 	@ResponseStatus(HttpStatus.OK)
 	@DeleteMapping("/delete-by-id/{id}")
-	public ResponseEntity<String> deleteById(@PathVariable UUID id) {
-		String deleteById = functionMethods.deleteById(id);		
-		return ResponseEntity.status(HttpStatus.OK).body(deleteById);
+	public ResponseEntity<String> deleteById(@PathVariable String id) {
+		String message = functionMethods.deleteById(id);		
+		return ResponseEntity.status(HttpStatus.OK).body(message);
 	} 
 }
 

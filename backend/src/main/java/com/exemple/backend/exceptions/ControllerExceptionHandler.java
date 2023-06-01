@@ -1,5 +1,6 @@
 package com.exemple.backend.exceptions;
 
+import java.sql.SQLException;
 import java.time.Instant;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,6 +38,17 @@ public class ControllerExceptionHandler {
 	
 	@ExceptionHandler(InvalidFormatException.class)
 	public ResponseEntity<StandardError> entityBadRequest(InvalidFormatException e, HttpServletRequest request) {
+		StandardError error = new StandardError();
+		error.setTimestamp(Instant.now().toString());
+		error.setStatus(HttpStatus.BAD_REQUEST.value());
+		error.setError("Bad request");
+		error.setMessage(e.getMessage());
+		error.setPath(request.getRequestURI());
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+	}
+	
+	@ExceptionHandler(SQLException.class)
+	public ResponseEntity<StandardError> entityBadRequest(SQLException e, HttpServletRequest request) {
 		StandardError error = new StandardError();
 		error.setTimestamp(Instant.now().toString());
 		error.setStatus(HttpStatus.BAD_REQUEST.value());

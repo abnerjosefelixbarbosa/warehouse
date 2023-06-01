@@ -1,27 +1,24 @@
 package com.exemple.backend.entities;
 
 import java.util.Date;
-import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.exemple.backend.dtos.ProductDto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 @Entity(name = "product")
 public class Product {
 	@Id
-	@GeneratedValue
-	private UUID id;	
+	@Column(nullable = false, length = 50)
+	private String id;	
 	@Column(nullable = false, length = 100)
 	private String name;	
 	@Column(nullable = false, length = 20)
@@ -47,4 +44,21 @@ public class Product {
 	@ManyToOne
 	@JoinColumn(name = "brand_id", nullable = false)
 	private Brand brand;
+	
+	public ProductDto factoryProductDto() {
+		ProductDto dto = new ProductDto();
+		dto.setId(id);
+		dto.setName(name);
+		dto.setAddressZipCode(addressZipCode);
+		dto.setAddressNumber(addressNumber);
+		dto.setAddressName(addressName);
+		dto.setAddressNeighborhood(addressNeighborhood);
+		dto.setAddressCity(addressCity);
+		dto.setAddressState(addressState);
+		dto.setDateTime(dateTime);
+		dto.setWeight(Weight);
+		dto.setEmployee(employee);
+		dto.setBrand(brand);
+		return dto;
+	}
 }
