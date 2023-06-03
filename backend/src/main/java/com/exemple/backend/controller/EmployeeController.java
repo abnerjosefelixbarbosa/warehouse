@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,8 +34,8 @@ public class EmployeeController {
 	})
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping("/save")
-	public ResponseEntity<String> save(@RequestBody EmployeeDto employeeDto) {
-		Employee employee = employeeDto.factoryEmployee();
+	public ResponseEntity<String> save(@RequestBody EmployeeDto dto) {
+		Employee employee = dto.factoryEmployee();
 		String save = employeeMethods.save(employee);
 		return ResponseEntity.status(HttpStatus.CREATED).body(save);
 	}
@@ -58,9 +57,9 @@ public class EmployeeController {
 		@ApiResponse(code = 404, message = "Not found")
 	})
 	@ResponseStatus(HttpStatus.OK)
-	@GetMapping("/find-by-matriculation/{matriculation}")
-	public ResponseEntity<Employee> findByMatriculation(@PathVariable Long matriculation) {
-		Employee findByMatriculation = employeeMethods.findByMatriculation(matriculation);
+	@PostMapping("/find-by-matriculation")
+	public ResponseEntity<Employee> findByMatriculation(@RequestBody EmployeeDto dto) {
+		Employee findByMatriculation = employeeMethods.findByMatriculation(dto.getMatriculation());
 		return ResponseEntity.status(HttpStatus.OK).body(findByMatriculation);
 	}
 	
@@ -71,10 +70,9 @@ public class EmployeeController {
 		@ApiResponse(code = 400, message = "Bad request")
 	})
 	@ResponseStatus(HttpStatus.OK)
-	@PutMapping("/update/{matriculation}")
-	public ResponseEntity<String> update(@PathVariable Long matriculation, @RequestBody EmployeeDto employeeDto) {		
-		Employee employee = employeeDto.factoryEmployee();
-		employee.setMatriculation(matriculation);
+	@PutMapping("/update")
+	public ResponseEntity<String> update(@RequestBody EmployeeDto dto) {		
+		Employee employee = dto.factoryEmployee();
 		String update = employeeMethods.update(employee);
 		return ResponseEntity.status(HttpStatus.OK).body(update);
 	}

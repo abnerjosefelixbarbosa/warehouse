@@ -10,5 +10,5 @@ import com.exemple.backend.entities.Employee;
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 	List<Employee> findByOrderByName();
-	List<Employee> findByFunctionName(String name);
+	Long countByFunctionName(String name);
 }

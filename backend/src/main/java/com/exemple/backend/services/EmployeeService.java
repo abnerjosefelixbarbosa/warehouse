@@ -20,19 +20,18 @@ public class EmployeeService implements EmployeeMethods {
 	@Autowired
 	private FunctionRepository functionRepository;
 	
-	public String save(Employee employee) {		
+	public String save(Employee employee) {	
 		validSave(employee);
 		employeeRepository.save(employee);		
-		return "employee save";
+		return "employee saved";
 	}
 	
 	private void validSave(Employee employee) {
-		if (employee.getMatriculation() == null)
+		if (employee.getMatriculation() == null || employee.getMatriculation() == 0)
 			throw new EntityBadRequestException("matriculation is null");		
 		if (employee.getMatriculation().toString().length() != 10)
 			throw new EntityBadRequestException("matriculation diferente of 10 characters");
-		Employee findById = employeeRepository.findById(employee.getMatriculation()).orElse(null);
-		if (findById != null)
+		if (employeeRepository.existsById(employee.getMatriculation()))
 			throw new EntityBadRequestException("matriculation exists");		
 		if (employee.getName() == null || employee.getName().isEmpty())
 			throw new EntityBadRequestException("name is null or empty");			
@@ -40,15 +39,15 @@ public class EmployeeService implements EmployeeMethods {
 			throw new EntityBadRequestException("name is greater than 100 characters");		
 		if (employee.getSalary() == null || employee.getSalary().longValue() == 0)
 			throw new EntityBadRequestException("salary is null or zero");	
-		Function findByName = functionRepository.findByName(employee.getFunction().getName()).orElse(null);
-		if (findByName == null)
-			throw new EntityBadRequestException("function name not exists");
-		employee.setFunction(findByName);
-		List<Employee> findByFunctionName = employeeRepository.findByFunctionName(employee.getFunction().getName());	
-		if (findByFunctionName.size() == 1 && employee.getFunction().getName() == "manager")
-			throw new EntityBadRequestException("one manager exists");		
-		if (findByFunctionName.size() == 3 && employee.getFunction().getName() == "coordinator")
-			throw new EntityBadRequestException("three coordinators exists");
+		Function functionFound = functionRepository.findByName(employee.getFunction().getName()).orElse(null);
+		if (functionFound == null)
+			throw new EntityNotFoundException("function name not found");
+		employee.setFunction(functionFound);
+		Long count = employeeRepository.countByFunctionName(employee.getFunction().getName());
+		if (count == 1 && employee.getFunction().getName().equals("manager"))
+			throw new EntityBadRequestException("1 manager exists");
+		if (count == 3 && employee.getFunction().getName().equals("coordinator"))
+			throw new EntityBadRequestException("3 coordinators exists");		
 	}
 	
 	public List<Employee> list() {
@@ -62,8 +61,6 @@ public class EmployeeService implements EmployeeMethods {
 	}
 
     public String update(Employee employee) {
-    	if (employee.getMatriculation() == null)
-    		throw new EntityNotFoundException("id not found");
         Employee findById = employeeRepository.findById(employee.getMatriculation()).orElse(null);
         if (findById == null) 
         	throw new EntityNotFoundException("id not found");
@@ -83,10 +80,10 @@ public class EmployeeService implements EmployeeMethods {
 		if (findByName == null)
 			throw new EntityBadRequestException("function name not exists");
 		employee.setFunction(findByName);
-		List<Employee> findByFunctionName = employeeRepository.findByFunctionName(employee.getFunction().getName());	
-		if (findByFunctionName.size() == 1 && employee.getFunction().getName() == "manager")
-			throw new EntityBadRequestException("one manager exists");		
-		if (findByFunctionName.size() == 3 && employee.getFunction().getName() == "coordinator")
-			throw new EntityBadRequestException("three coordinators exists");
+		Long count = employeeRepository.countByFunctionName(employee.getFunction().getName());
+		if (count == 1 && employee.getFunction().getName().equals("manager"))
+			throw new EntityBadRequestException("1 manager exists");
+		if (count == 3 && employee.getFunction().getName().equals("coordinator"))
+			throw new EntityBadRequestException("3 coordinators exists");
     }
 }
