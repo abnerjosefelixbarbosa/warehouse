@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -36,8 +37,8 @@ public class EmployeeController {
 	@PostMapping("/save")
 	public ResponseEntity<String> save(@RequestBody EmployeeDto dto) {
 		Employee employee = dto.factoryEmployee();
-		String save = employeeMethods.save(employee);
-		return ResponseEntity.status(HttpStatus.CREATED).body(save);
+		String message = employeeMethods.save(employee);
+		return ResponseEntity.status(HttpStatus.CREATED).body(message);
 	}
 	
 	@ApiOperation("list")
@@ -75,5 +76,19 @@ public class EmployeeController {
 		Employee employee = dto.factoryEmployee();
 		String update = employeeMethods.update(employee);
 		return ResponseEntity.status(HttpStatus.OK).body(update);
+	}
+	
+	@ApiOperation("delete by id")
+	@ApiResponses({
+		@ApiResponse(code = 200, message = "Ok"),
+		@ApiResponse(code = 404, message = "Not found"),
+		@ApiResponse(code = 400, message = "Bad request")
+	})
+	@ResponseStatus(HttpStatus.OK)
+	@DeleteMapping("/delte-by-id")
+	public ResponseEntity<String> deleteByMatriculation(@RequestBody EmployeeDto dto) {		
+		Employee employee = dto.factoryEmployee();
+		String message = employeeMethods.deleteByMatriculation(employee.getMatriculation());
+		return ResponseEntity.status(HttpStatus.OK).body(message);
 	}
 }

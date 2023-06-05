@@ -9,4 +9,5 @@ public interface EmployeeMethods {
 	List<Employee> list();
 	Employee findByMatriculation(Long matriculation);
 	String update(Employee employee);
+	String deleteByMatriculation(Long matriculation);
 }

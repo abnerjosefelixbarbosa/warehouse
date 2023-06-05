@@ -86,4 +86,12 @@ public class EmployeeService implements EmployeeMethods {
 		if (count == 3 && employee.getFunction().getName().equals("coordinator"))
 			throw new EntityBadRequestException("3 coordinators exists");
     }
+    
+    public String deleteByMatriculation(Long matriculation) {
+    	Employee findById = employeeRepository.findById(matriculation).orElse(null);
+        if (findById == null) 
+        	throw new EntityNotFoundException("id not found");
+    	employeeRepository.deleteById(matriculation);
+    	return "employee deleted";
+    }
 }
